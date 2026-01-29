@@ -3,79 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>10A7 - Ultra Clarity OS</title>
+    <title>10A7 - Galactic Hub Navigation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
-
         :root { --neon-cyan: #00f2ff; }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: #020617;
             background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
-            color: #f8fafc;
-            height: 100vh;
-            overflow: hidden;
-            perspective: 1200px;
+            color: #f8fafc; height: 100vh; overflow: hidden; perspective: 1200px;
         }
-
         .scifi-font { font-family: 'Orbitron', sans-serif; }
-
         .carousel-viewport {
-            display: flex;
-            overflow-x: scroll;
-            height: 80vh;
-            align-items: center;
-            padding: 0 4vw;
-            scroll-snap-type: x mandatory;
-            gap: 20px;
-            -webkit-overflow-scrolling: touch;
+            display: flex; overflow-x: scroll; height: 80vh; align-items: center;
+            padding: 0 4vw; scroll-snap-type: x mandatory; gap: 20px; -webkit-overflow-scrolling: touch;
         }
         .carousel-viewport::-webkit-scrollbar { display: none; }
 
-        /* Card - Tối ưu diện tích cho chữ lớn */
         .scifi-card {
-            min-width: 92vw;
-            height: 72vh;
-            scroll-snap-align: center;
-            background: rgba(15, 23, 42, 0.98);
-            backdrop-filter: blur(25px);
-            border: 2px solid rgba(0, 242, 255, 0.4);
-            border-radius: 40px;
-            padding: 25px;
-            position: relative;
-            transition: all 0.4s ease;
-            transform-style: preserve-3d;
-            opacity: 0.1;
-            transform: scale(0.8);
+            min-width: 92vw; height: 74vh; scroll-snap-align: center;
+            background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(25px);
+            border: 2px solid rgba(0, 242, 255, 0.4); border-radius: 40px;
+            padding: 25px; position: relative; transition: all 0.4s ease;
+            transform-style: preserve-3d; opacity: 0.1; transform: scale(0.8);
         }
+        .scifi-card.active { opacity: 1; transform: scale(1); border-color: var(--neon-cyan); }
 
-        .scifi-card.active { opacity: 1; transform: scale(1); border-color: var(--neon-cyan); box-shadow: 0 0 40px rgba(0, 242, 255, 0.15); }
-
-        /* Tăng cỡ chữ bảng cực đại */
+        /* Typography & Table */
         .scifi-table { width: 100%; font-size: 1.1rem; text-align: left; }
-        .scifi-table th { color: var(--neon-cyan); padding: 12px 5px; border-bottom: 2px solid rgba(0,242,255,0.3); font-size: 0.8rem; }
         .scifi-table td { padding: 14px 5px; border-bottom: 1px solid rgba(255,255,255,0.15); font-weight: 700; }
-
-        /* Checkbox cực đại cho ngón tay */
-        .duty-grid { display: grid; grid-template-columns: 2fr repeat(6, 1fr); gap: 4px; align-items: center; }
-        .quest-check {
-            width: 30px; height: 30px;
-            accent-color: var(--neon-cyan);
-            cursor: pointer;
+        
+        /* Duty Grid with Responsible Name */
+        .duty-container { display: flex; flex-direction: column; gap: 12px; }
+        .duty-row { 
+            background: rgba(255,255,255,0.05); padding: 15px; border-radius: 25px; 
+            border: 1px solid rgba(255,255,255,0.1);
         }
+        .duty-header-grid { display: grid; grid-template-columns: 1.5fr 1fr repeat(6, 40px); gap: 5px; overflow-x: auto; }
+        
+        .quest-check { width: 28px; height: 28px; accent-color: var(--neon-cyan); cursor: pointer; }
+        .name-tag { font-size: 11px; color: var(--neon-cyan); font-weight: 800; text-transform: uppercase; }
 
-        /* Nav Dots lớn */
         .nav-dot {
-            width: 48px; height: 48px;
-            border-radius: 50%;
-            border: 2px solid rgba(0,242,255,0.4);
+            width: 48px; height: 48px; border-radius: 50%; border: 2px solid rgba(0,242,255,0.4);
             display: flex; align-items: center; justify-content: center;
-            font-size: 20px; font-family: 'Orbitron';
-            color: rgba(0,242,255,0.8);
-            transition: 0.3s;
+            font-size: 20px; font-family: 'Orbitron'; color: rgba(0,242,255,0.8); transition: 0.3s;
         }
         .nav-dot.active { background: var(--neon-cyan); color: #000; box-shadow: 0 0 30px var(--neon-cyan); border: none; }
     </style>
@@ -83,68 +57,85 @@
 <body class="flex flex-col">
 
     <header class="p-6 flex justify-between items-center z-50">
-        <div>
-            <h1 class="scifi-font font-black text-3xl tracking-tighter italic text-white" style="text-shadow: 0 0 15px #00f2ff;">10A7 // HUB</h1>
-        </div>
-        <div class="text-right">
-            <p id="live-time" class="text-xl font-bold text-white scifi-font leading-none">00:00:00</p>
-            <p class="text-[10px] text-cyan-400 font-bold uppercase mt-1">Status: Stable</p>
+        <h1 class="scifi-font font-black text-3xl italic text-white" style="text-shadow: 0 0 15px #00f2ff;">10A7 // HUB</h1>
+        <div class="text-right scifi-font">
+            <p id="live-time" class="text-xl font-bold text-white">00:00:00</p>
         </div>
     </header>
 
     <div class="carousel-viewport" id="viewport">
         
         <section class="scifi-card active" id="card-0">
-            <h3 class="scifi-font text-cyan-400 text-sm mb-4 border-b border-cyan-500/30 pb-2 uppercase">01 // TRỰC NHẬT</h3>
-            
-            <div class="mb-6 flex justify-between items-end">
-                <div>
-                    <p class="text-5xl font-black text-white leading-none">Tổ 05</p>
-                    <p class="text-base text-cyan-400 font-bold mt-2">27/01 - 04/02/2026</p>
-                </div>
+            <div class="flex justify-between items-center mb-4 border-b border-cyan-500/30 pb-2">
+                <h3 class="scifi-font text-cyan-400 text-sm uppercase">01 // TRỰC NHẬT</h3>
+                <div class="text-[10px] bg-cyan-500/20 px-3 py-1 rounded-full text-cyan-300 font-bold">VUỐT ↑↓ ĐỔI TUẦN</div>
             </div>
-
-            <div class="space-y-4 overflow-y-auto h-[40vh] pr-1">
-                <div class="duty-grid px-1 text-[11px] font-bold text-slate-500 uppercase mb-2">
-                    <span>Nội dung</span><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span>
+            
+            <div id="duty-content-area">
+                <div class="mb-4">
+                    <p id="week-display" class="text-base text-cyan-400 font-bold uppercase tracking-widest">Tuần 20</p>
+                    <p id="group-display" class="text-5xl font-black text-white leading-none">Tổ 05</p>
                 </div>
-                
-                <div class="bg-white/5 p-4 rounded-3xl border border-white/10">
-                    <p class="text-base font-black mb-4 text-white uppercase">Lau bảng</p>
-                    <div class="duty-grid">
-                        <i class="fa-solid fa-chalkboard text-slate-500 text-xl"></i>
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
+
+                <div class="duty-container overflow-y-auto h-[45vh] pr-1">
+                    <div class="duty-row">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-black text-white uppercase">Lau bảng (Mỗi tiết)</span>
+                            <span class="name-tag">Phụ trách: Nam</span>
+                        </div>
+                        <div class="flex justify-between px-2">
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T2</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T3</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T4</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T5</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T6</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T7</span><input type="checkbox" class="quest-check"></div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="bg-white/5 p-4 rounded-3xl border border-white/10">
-                    <p class="text-base font-black mb-4 text-white uppercase">Đầu/Cuối giờ</p>
-                    <div class="duty-grid">
-                        <i class="fa-solid fa-broom text-slate-500 text-xl"></i>
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
+                    <div class="duty-row">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-black text-white uppercase">Vệ sinh đầu giờ</span>
+                            <span class="name-tag">Phụ trách: An</span>
+                        </div>
+                        <div class="flex justify-between px-2">
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T2</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T3</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T4</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T5</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T6</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T7</span><input type="checkbox" class="quest-check"></div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="bg-white/5 p-4 rounded-3xl border border-white/10">
-                    <p class="text-base font-black mb-4 text-white uppercase">Rác & TBị</p>
-                    <div class="duty-grid">
-                        <i class="fa-solid fa-trash-can text-slate-500 text-xl"></i>
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
-                        <input type="checkbox" class="quest-check mx-auto">
+                    <div class="duty-row">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-black text-white uppercase">Vệ sinh cuối giờ</span>
+                            <span class="name-tag">Phụ trách: Bình</span>
+                        </div>
+                        <div class="flex justify-between px-2">
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T2</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T3</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T4</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T5</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T6</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T7</span><input type="checkbox" class="quest-check"></div>
+                        </div>
+                    </div>
+
+                    <div class="duty-row">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-black text-white uppercase">Đổ rác & Thiết bị</span>
+                            <span class="name-tag">Phụ trách: Chi</span>
+                        </div>
+                        <div class="flex justify-between px-2">
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T2</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T3</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T4</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T5</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T6</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T7</span><input type="checkbox" class="quest-check"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -152,7 +143,7 @@
 
         <section class="scifi-card" id="card-1">
             <h3 class="scifi-font text-cyan-400 text-sm mb-6 border-b border-cyan-500/30 pb-2 uppercase">02 // THỜI KHÓA BIỂU</h3>
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto h-full">
                 <table class="scifi-table">
                     <thead>
                         <tr><th>GIỜ</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th></tr>
@@ -160,7 +151,7 @@
                     <tbody class="text-white">
                         <tr><td>13:00</td><td>Toán</td><td>Văn</td><td>Anh</td><td>Sử</td><td>Địa</td><td>QP</td></tr>
                         <tr><td>13:45</td><td>Toán</td><td>Văn</td><td>Anh</td><td>CN</td><td>Lý</td><td>Sinh</td></tr>
-                        <tr><td colspan="7" class="text-center text-yellow-500 py-4 bg-yellow-500/10 font-bold text-base">GIẢI LAO 30 PHÚT</td></tr>
+                        <tr><td colspan="7" class="text-center text-yellow-500 py-4 bg-yellow-500/10 font-bold text-base uppercase">GIẢI LAO 30P</td></tr>
                         <tr><td>15:00</td><td>Lý</td><td>Hóa</td><td>Toán</td><td>Văn</td><td>Anh</td><td>Tin</td></tr>
                     </tbody>
                 </table>
@@ -193,7 +184,6 @@
                 </div>
             </div>
         </section>
-
     </div>
 
     <footer class="p-8 flex flex-col items-center gap-6">
@@ -203,47 +193,62 @@
             <div class="nav-dot" onclick="scrollToCard(2)">3</div>
             <div class="nav-dot" onclick="scrollToCard(3)">4</div>
         </div>
-        <p class="text-[14px] scifi-font tracking-[0.5em] text-slate-500">SYSTEM HUB</p>
     </footer>
 
     <script>
         const viewport = document.getElementById('viewport');
         const cards = document.querySelectorAll('.scifi-card');
         const dots = document.querySelectorAll('.nav-dot');
+        
+        // Logic đổi tuần bằng vuốt Lên/Xuống
+        let currentWeek = 20;
+        let touchStartY = 0;
+        const dutyCard = document.getElementById('card-0');
 
+        dutyCard.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, false);
+        dutyCard.addEventListener('touchend', e => {
+            const touchEndY = e.changedTouches[0].clientY;
+            if (touchStartY - touchEndY > 50) { // Vuốt lên
+                currentWeek++;
+                updateWeek();
+            } else if (touchEndY - touchStartY > 50) { // Vuốt xuống
+                currentWeek--;
+                updateWeek();
+            }
+        }, false);
+
+        function updateWeek() {
+            document.getElementById('week-display').innerText = `Tuần ${currentWeek}`;
+            document.getElementById('group-display').innerText = `Tổ 0${(currentWeek % 5) + 1}`;
+            // Hiệu ứng nháy khi đổi dữ liệu
+            dutyCard.style.borderColor = "#fff";
+            setTimeout(() => { dutyCard.style.borderColor = "var(--neon-cyan)"; }, 150);
+        }
+
+        // Logic Carousel giữ nguyên
         viewport.addEventListener('scroll', () => {
             const centerX = viewport.offsetWidth / 2;
             cards.forEach((card, index) => {
                 const rect = card.getBoundingClientRect();
                 const cardCenter = rect.left + rect.width / 2;
                 const distance = cardCenter - centerX;
-                
-                const rotation = distance / 15;
                 const scale = Math.max(0.8, 1 - Math.abs(distance) / 1500);
-                card.style.transform = `scale(${scale}) rotateY(${rotation}deg)`;
+                card.style.transform = `scale(${scale})`;
                 card.style.opacity = Math.max(0.1, 1 - Math.abs(distance) / 600);
-
                 if (Math.abs(distance) < 150) {
                     card.classList.add('active');
                     dots.forEach(d => d.classList.remove('active'));
                     dots[index].classList.add('active');
-                } else {
-                    card.classList.remove('active');
-                }
+                } else { card.classList.remove('active'); }
             });
         });
 
         function scrollToCard(index) {
             const card = document.getElementById(`card-${index}`);
-            viewport.scrollTo({
-                left: card.offsetLeft - (viewport.offsetWidth - card.offsetWidth) / 2,
-                behavior: 'smooth'
-            });
+            viewport.scrollTo({ left: card.offsetLeft - (viewport.offsetWidth - card.offsetWidth) / 2, behavior: 'smooth' });
         }
 
-        setInterval(() => {
-            document.getElementById('live-time').innerText = new Date().toLocaleTimeString('vi-VN');
-        }, 1000);
+        setInterval(() => { document.getElementById('live-time').innerText = new Date().toLocaleTimeString('vi-VN'); }, 1000);
     </script>
 </body>
 </html>
