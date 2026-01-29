@@ -23,11 +23,10 @@
 
         .scifi-font { font-family: 'Orbitron', sans-serif; }
 
-        /* Carousel 3D */
         .carousel-viewport {
             display: flex;
             overflow-x: scroll;
-            height: 75vh;
+            height: 78vh;
             align-items: center;
             padding: 0 10vw;
             scroll-snap-type: x mandatory;
@@ -38,8 +37,8 @@
         .carousel-viewport::-webkit-scrollbar { display: none; }
 
         .scifi-card {
-            min-width: 80vw;
-            height: 60vh;
+            min-width: 85vw;
+            height: 65vh;
             scroll-snap-align: center;
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
@@ -55,14 +54,12 @@
 
         .scifi-card.active { opacity: 1; transform: scale(1) rotateY(0deg); border-color: var(--neon-cyan); box-shadow: 0 0 40px rgba(0, 242, 255, 0.1); }
 
-        /* Table UI */
-        .scifi-table { width: 100%; font-size: 0.75rem; text-align: left; }
-        .scifi-table th { color: var(--neon-cyan); padding: 10px 5px; border-bottom: 1px solid rgba(0,242,255,0.1); text-transform: uppercase; font-size: 0.65rem; }
-        .scifi-table td { padding: 8px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .scifi-table { width: 100%; font-size: 0.7rem; text-align: left; }
+        .scifi-table th { color: var(--neon-cyan); padding: 8px 5px; border-bottom: 1px solid rgba(0,242,255,0.1); text-transform: uppercase; font-size: 0.6rem; }
+        .scifi-table td { padding: 6px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
-        /* Navigation Dots */
         .nav-dot {
-            width: 30px; height: 30px;
+            width: 32px; height: 32px;
             border-radius: 50%;
             border: 1px solid rgba(0,242,255,0.3);
             display: flex; align-items: center; justify-content: center;
@@ -74,94 +71,149 @@
         .nav-dot.active { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px var(--neon-cyan); border-color: transparent; }
 
         .header-glow { text-shadow: 0 0 10px var(--neon-cyan); }
+        
+        .duty-grid { display: grid; grid-template-columns: 2.5fr repeat(6, 1fr); gap: 4px; align-items: center; }
     </style>
 </head>
 <body class="flex flex-col">
 
-    <header class="p-6 flex justify-between items-center z-50">
+    <header class="p-5 flex justify-between items-center z-50">
         <div>
             <h1 class="scifi-font font-black text-2xl tracking-tighter header-glow italic">10A7 // HUB</h1>
             <p class="text-[9px] text-cyan-500 font-bold uppercase tracking-widest">Hệ thống quản lý lớp học vị lai</p>
         </div>
         <div class="text-right">
-            <p class="text-[10px] scifi-font text-slate-500">QUYỀN TRUY CẬP: PUBLIC</p>
-            <p id="live-time" class="text-xs font-bold text-white uppercase">22:17:41</p>
+            <p class="text-[9px] scifi-font text-slate-500">TRẠNG THÁI: ONLINE</p>
+            <p id="live-time" class="text-xs font-bold text-white uppercase tracking-widest">00:00:00</p>
         </div>
     </header>
 
     <div class="carousel-viewport" id="viewport">
         
         <section class="scifi-card active" id="card-0">
-            <h3 class="scifi-font text-cyan-400 text-sm mb-6 border-b border-cyan-500/30 pb-2">01 // TRỰC NHẬT</h3>
-            <div class="mb-6">
-                <p class="text-3xl font-black text-white uppercase">Tổ 05</p>
-                <p class="text-xs text-cyan-500">Tuần: 27/01 - 04/02/2026</p>
-            </div>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl border-l-2 border-cyan-400">
-                    <span class="text-xs">Lau bảng (Mỗi tiết)</span>
-                    <input type="checkbox" class="w-4 h-4 accent-cyan-400">
+            <h3 class="scifi-font text-cyan-400 text-[10px] mb-4 border-b border-cyan-500/30 pb-2">01 // GIÁM SÁT TRỰC NHẬT</h3>
+            <div class="flex justify-between items-end mb-4">
+                <div>
+                    <p class="text-2xl font-black text-white uppercase">Tổ 05</p>
+                    <p class="text-[10px] text-cyan-500 uppercase tracking-widest">Tuần 20: 27/01 - 04/02</p>
                 </div>
-                <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl border-l-2 border-cyan-400">
-                    <span class="text-xs">Vệ sinh đầu/cuối giờ</span>
-                    <input type="checkbox" class="w-4 h-4 accent-cyan-400">
+            </div>
+
+            <div class="space-y-3 overflow-y-auto h-[38vh] pr-1">
+                <div class="duty-grid px-1 text-[8px] font-bold text-slate-500 uppercase">
+                    <span>Nội dung</span><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span>
+                </div>
+                
+                <div class="bg-white/5 p-2 rounded-xl border border-white/5">
+                    <p class="text-[9px] font-bold mb-2 text-slate-300">Lau bảng (Mỗi tiết)</p>
+                    <div class="duty-grid">
+                        <i class="fa-solid fa-chalkboard text-[10px] text-slate-600"></i>
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                    </div>
+                </div>
+
+                <div class="bg-white/5 p-2 rounded-xl border border-white/5">
+                    <p class="text-[9px] font-bold mb-2 text-slate-300">Vệ sinh đầu giờ (12:45)</p>
+                    <div class="duty-grid">
+                        <i class="fa-solid fa-sun text-[10px] text-slate-600"></i>
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                    </div>
+                </div>
+
+                <div class="bg-white/5 p-2 rounded-xl border border-white/5">
+                    <p class="text-[9px] font-bold mb-2 text-slate-300">Vệ sinh cuối giờ (17:15)</p>
+                    <div class="duty-grid">
+                        <i class="fa-solid fa-moon text-[10px] text-slate-600"></i>
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                    </div>
+                </div>
+
+                <div class="bg-white/5 p-2 rounded-xl border border-white/5">
+                    <p class="text-[9px] font-bold mb-2 text-slate-300">Đổ rác & Thiết bị</p>
+                    <div class="duty-grid">
+                        <i class="fa-solid fa-trash-can text-[10px] text-slate-600"></i>
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                        <input type="checkbox" class="w-3.5 h-3.5 accent-cyan-400 mx-auto">
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="scifi-card" id="card-1">
-            <h3 class="scifi-font text-cyan-400 text-sm mb-4 border-b border-cyan-500/30 pb-2">02 // THỜI KHÓA BIỂU</h3>
-            <div class="overflow-y-auto h-[45vh]">
+            <h3 class="scifi-font text-cyan-400 text-[10px] mb-4 border-b border-cyan-500/30 pb-2">02 // THỜI KHÓA BIỂU CHIỀU</h3>
+            <div class="overflow-x-auto h-[45vh]">
                 <table class="scifi-table">
                     <thead>
                         <tr><th>T.Gian</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th></tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-slate-300">
                         <tr><td>13:00</td><td>Toán</td><td>Văn</td><td>Anh</td><td>Sử</td><td>Địa</td><td>QP</td></tr>
                         <tr><td>13:45</td><td>Toán</td><td>Văn</td><td>Anh</td><td>CN</td><td>Lý</td><td>Sinh</td></tr>
-                        <tr><td colspan="7" class="text-center text-yellow-500 py-1 bg-yellow-500/5">GIẢI LAO 30'</td></tr>
+                        <tr><td colspan="7" class="text-center text-yellow-500 py-1 bg-yellow-500/5 font-bold italic text-[9px]">GIẢI LAO 30 PHÚT (14:30 - 15:00)</td></tr>
                         <tr><td>15:00</td><td>Lý</td><td>Hóa</td><td>Toán</td><td>Văn</td><td>Anh</td><td>Tin</td></tr>
+                        <tr><td>15:45</td><td>Lý</td><td>Hóa</td><td>Toán</td><td>Văn</td><td>Anh</td><td>SHL</td></tr>
+                        <tr><td colspan="7" class="text-center text-yellow-500 py-1 bg-yellow-500/5 font-bold italic text-[9px]">RA CHƠI 10 PHÚT (16:30 - 16:40)</td></tr>
+                        <tr><td>16:40</td><td>Sinh</td><td>Địa</td><td>Sử</td><td>GDCD</td><td>Hóa</td><td>-</td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
         <section class="scifi-card" id="card-2">
-            <h3 class="scifi-font text-cyan-400 text-sm mb-4 border-b border-cyan-500/30 pb-2">03 // NHÂN SỰ LỚP</h3>
-            <div class="grid grid-cols-2 gap-4 h-[45vh] overflow-y-auto pr-2">
+            <h3 class="scifi-font text-cyan-400 text-[10px] mb-4 border-b border-cyan-500/30 pb-2">03 // NHÂN SỰ & QUẢN TRỊ</h3>
+            <div class="grid grid-cols-2 gap-4">
                 <div class="p-3 bg-white/5 rounded-xl border border-white/10">
-                    <p class="text-[9px] text-cyan-500 font-bold uppercase">Ban cán sự</p>
-                    <p class="text-[11px] mt-1">Lớp trưởng: Nam</p>
-                    <p class="text-[11px]">Lớp phó: Lan</p>
+                    <p class="text-[9px] text-cyan-500 font-bold uppercase mb-1">Ban cán sự</p>
+                    <ul class="text-[10px] space-y-1">
+                        <li>Lớp trưởng: Nam</li>
+                        <li>Lớp phó: Lan</li>
+                        <li>Thủ quỹ: Minh</li>
+                    </ul>
                 </div>
-                <div class="p-3 bg-white/5 rounded-xl border border-white/10">
-                    <p class="text-[9px] text-purple-500 font-bold uppercase">Sĩ số</p>
-                    <p class="text-xl font-black">47</p>
-                    <p class="text-[9px]">Đang hoạt động</p>
+                <div class="p-3 bg-white/5 rounded-xl border border-white/10 flex flex-col justify-center">
+                    <p class="text-[9px] text-purple-500 font-bold uppercase mb-1">Sĩ số lớp</p>
+                    <p class="text-3xl font-black text-white">47</p>
                 </div>
                 <div class="col-span-2 p-3 bg-white/5 rounded-xl border border-white/10">
-                    <p class="text-[9px] text-green-500 font-bold uppercase mb-2">Giáo viên bộ môn</p>
-                    <div class="text-[10px] grid grid-cols-2 gap-2">
-                        <span>Toán: Thầy A</span>
-                        <span>Văn: Cô B</span>
-                        <span>Anh: Thầy C</span>
-                        <span>Lý: Cô D</span>
+                    <p class="text-[9px] text-green-500 font-bold uppercase mb-2 text-center">Giáo viên bộ môn (GVBM)</p>
+                    <div class="grid grid-cols-2 text-[9px] gap-x-4 gap-y-1">
+                        <span>Toán: Thầy A</span><span>Văn: Cô B</span>
+                        <span>Anh: Thầy C</span><span>Công nghệ: Thầy D</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="scifi-card" id="card-3">
-            <h3 class="scifi-font text-cyan-400 text-sm mb-10 border-b border-cyan-500/30 pb-2">04 // KINH TẾ LỚP</h3>
-            <div class="flex flex-col items-center justify-center py-6">
-                <div class="w-32 h-32 rounded-full border border-cyan-500/20 flex flex-col items-center justify-center shadow-[inset_0_0_20px_rgba(0,242,255,0.1)]">
-                    <p class="text-[10px] text-slate-500">QUỸ HIỆN TẠI</p>
+            <h3 class="scifi-font text-cyan-400 text-[10px] mb-8 border-b border-cyan-500/30 pb-2">04 // KINH TẾ & TÀI CHÍNH</h3>
+            <div class="flex flex-col items-center py-4">
+                <div class="w-36 h-36 rounded-full border-2 border-dashed border-cyan-500/20 flex flex-col items-center justify-center bg-cyan-500/5">
+                    <p class="text-[9px] text-slate-500 uppercase tracking-widest">Số dư quỹ</p>
                     <p class="text-xl font-black text-green-400">2.450.000đ</p>
                 </div>
-                <div class="mt-8 w-full space-y-2">
-                    <div class="flex justify-between p-2 bg-red-500/5 rounded text-[10px]">
-                        <span>CHI GẦN NHẤT</span>
-                        <span class="text-red-400">-45.000đ</span>
+                <div class="mt-8 w-full px-4 space-y-2">
+                    <div class="flex justify-between p-2 bg-red-500/5 border border-red-500/10 rounded-lg text-[9px]">
+                        <span class="text-slate-400 italic">Chi: Dụng cụ vệ sinh</span>
+                        <span class="text-red-400 font-bold">-45.000đ</span>
                     </div>
                 </div>
             </div>
@@ -169,14 +221,14 @@
 
     </div>
 
-    <footer class="p-6 flex flex-col items-center gap-4">
+    <footer class="p-4 flex flex-col items-center gap-4">
         <div class="flex gap-4" id="dots-container">
             <div class="nav-dot active" onclick="scrollToCard(0)">01</div>
             <div class="nav-dot" onclick="scrollToCard(1)">02</div>
             <div class="nav-dot" onclick="scrollToCard(2)">03</div>
             <div class="nav-dot" onclick="scrollToCard(3)">04</div>
         </div>
-        <p class="text-[8px] scifi-font tracking-[1em] text-slate-600 animate-pulse">LƯỚT NGANG ĐỂ XOAY</p>
+        <p class="text-[8px] scifi-font tracking-[1em] text-slate-600 uppercase">Swipe to Navigate Hub</p>
     </footer>
 
     <script>
@@ -184,7 +236,6 @@
         const cards = document.querySelectorAll('.scifi-card');
         const dots = document.querySelectorAll('.nav-dot');
 
-        // Hiệu ứng cuộn 3D
         viewport.addEventListener('scroll', () => {
             const centerX = viewport.offsetWidth / 2;
             
@@ -193,7 +244,6 @@
                 const cardCenter = rect.left + rect.width / 2;
                 const distance = cardCenter - centerX;
                 
-                // Hiệu ứng xoay Cylindrical
                 const rotation = distance / 12;
                 const scale = Math.max(0.7, 1 - Math.abs(distance) / 1200);
                 card.style.transform = `scale(${scale}) rotateY(${rotation}deg)`;
@@ -209,7 +259,6 @@
             });
         });
 
-        // Di chuyển nhanh qua thẻ
         function scrollToCard(index) {
             const card = document.getElementById(`card-${index}`);
             viewport.scrollTo({
@@ -218,7 +267,6 @@
             });
         }
 
-        // Cập nhật giờ hệ thống
         setInterval(() => {
             document.getElementById('live-time').innerText = new Date().toLocaleTimeString('vi-VN');
         }, 1000);
