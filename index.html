@@ -3,221 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>10A7 - Galactic Carousel OS</title>
+    <title>10A7 - Galactic Command Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
 
-        :root {
-            --scifi-cyan: #00f2ff;
-            --scifi-blue: #0ea5e9;
-        }
+        :root { --neon-cyan: #00f2ff; --neon-blue: #0ea5e9; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #020617;
+            background: #020617;
             background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
             color: #f8fafc;
             height: 100vh;
             overflow: hidden;
-            perspective: 1000px; /* Tạo chiều sâu cho không gian 3D */
+            perspective: 1200px;
         }
 
         .scifi-font { font-family: 'Orbitron', sans-serif; }
 
-        /* Container cho hiệu ứng cuộn tròn */
-        .carousel-container {
+        /* Carousel 3D */
+        .carousel-viewport {
             display: flex;
             overflow-x: scroll;
-            height: 85vh;
+            height: 75vh;
             align-items: center;
-            padding: 0 25vw; /* Để thẻ đầu/cuối có thể ra giữa */
+            padding: 0 10vw;
             scroll-snap-type: x mandatory;
-            gap: 50px;
+            gap: 40px;
             -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
-
-        .carousel-container::-webkit-scrollbar { display: none; }
+        .carousel-viewport::-webkit-scrollbar { display: none; }
 
         .scifi-card {
             min-width: 80vw;
-            height: 65vh;
+            height: 60vh;
             scroll-snap-align: center;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 242, 255, 0.2);
-            border-radius: 40px;
-            padding: 30px;
+            border-radius: 30px;
+            padding: 25px;
             position: relative;
-            transition: transform 0.5s ease-out, opacity 0.5s;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
             transform-style: preserve-3d;
-            /* Hiệu ứng bo cong mặc định */
-            transform: scale(0.8) rotateY(0deg);
-            opacity: 0.4;
+            opacity: 0.3;
+            transform: scale(0.8);
         }
 
-        /* Logic JavaScript sẽ điều khiển class này khi card vào giữa */
-        .scifi-card.active {
-            transform: scale(1.05) rotateY(0deg);
-            opacity: 1;
-            border-color: var(--scifi-cyan);
-            box-shadow: 0 0 50px rgba(0, 242, 255, 0.15);
+        .scifi-card.active { opacity: 1; transform: scale(1) rotateY(0deg); border-color: var(--neon-cyan); box-shadow: 0 0 40px rgba(0, 242, 255, 0.1); }
+
+        /* Table UI */
+        .scifi-table { width: 100%; font-size: 0.75rem; text-align: left; }
+        .scifi-table th { color: var(--neon-cyan); padding: 10px 5px; border-bottom: 1px solid rgba(0,242,255,0.1); text-transform: uppercase; font-size: 0.65rem; }
+        .scifi-table td { padding: 8px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        /* Navigation Dots */
+        .nav-dot {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,242,255,0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; font-family: 'Orbitron';
+            color: rgba(0,242,255,0.5);
+            transition: all 0.3s;
+            cursor: pointer;
         }
+        .nav-dot.active { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px var(--neon-cyan); border-color: transparent; }
 
-        /* HUD Decorations */
-        .corner-h {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--scifi-cyan);
-            opacity: 0.5;
-        }
-        .top-l { top: 0; left: 0; border-right: 0; border-bottom: 0; border-radius: 40px 0 0 0; }
-        .bot-r { bottom: 0; right: 0; border-left: 0; border-top: 0; border-radius: 0 0 40px 0; }
-
-        .scan-line {
-            position: absolute;
-            width: 100%; height: 100%;
-            top: 0; left: 0;
-            background: linear-gradient(to bottom, transparent, rgba(0, 242, 255, 0.05), transparent);
-            background-size: 100% 10px;
-            animation: moveScan 10s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes moveScan { from { background-position: 0 0; } to { background-position: 0 100%; } }
-
-        /* Table Styling */
-        table { width: 100%; font-size: 0.7rem; }
-        th { color: var(--scifi-cyan); text-align: left; padding: 8px; border-bottom: 1px solid rgba(0,242,255,0.1); }
-        td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
+        .header-glow { text-shadow: 0 0 10px var(--neon-cyan); }
     </style>
 </head>
 <body class="flex flex-col">
 
     <header class="p-6 flex justify-between items-center z-50">
-        <div class="flex items-center gap-3">
-            <div class="w-2 h-2 bg-cyan-400 rounded-full animate-ping"></div>
-            <h1 class="scifi-font font-black text-xl tracking-widest text-white">10A7 OS</h1>
+        <div>
+            <h1 class="scifi-font font-black text-2xl tracking-tighter header-glow italic">10A7 // HUB</h1>
+            <p class="text-[9px] text-cyan-500 font-bold uppercase tracking-widest">Hệ thống quản lý lớp học vị lai</p>
         </div>
-        <div class="scifi-font text-[10px] text-sky-400 text-right">
-            SYSTEM STATUS: OPTIMAL<br>JAN 29, 2026
+        <div class="text-right">
+            <p class="text-[10px] scifi-font text-slate-500">QUYỀN TRUY CẬP: PUBLIC</p>
+            <p id="live-time" class="text-xs font-bold text-white uppercase">22:17:41</p>
         </div>
     </header>
 
-    <div class="carousel-container" id="carousel">
+    <div class="carousel-viewport" id="viewport">
         
-        <div class="scifi-card active">
-            <div class="corner-h top-l"></div>
-            <div class="corner-h bot-r"></div>
-            <div class="scan-line"></div>
-            
-            <h3 class="scifi-font text-cyan-400 mb-6 tracking-widest uppercase">Duty Monitor</h3>
-            <div class="mb-8">
-                <p class="text-[10px] text-slate-500 uppercase font-bold">Current Assigned</p>
-                <p class="text-3xl font-black text-white">GROUP 05</p>
-                <p class="text-xs text-sky-500 mt-1">27/01 - 04/02/2026</p>
+        <section class="scifi-card active" id="card-0">
+            <h3 class="scifi-font text-cyan-400 text-sm mb-6 border-b border-cyan-500/30 pb-2">01 // TRỰC NHẬT</h3>
+            <div class="mb-6">
+                <p class="text-3xl font-black text-white uppercase">Tổ 05</p>
+                <p class="text-xs text-cyan-500">Tuần: 27/01 - 04/02/2026</p>
             </div>
-
-            <div class="space-y-4">
-                <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl">
-                    <input type="checkbox" checked class="w-4 h-4 accent-cyan-400">
-                    <span class="text-sm">Vệ sinh đầu giờ (12:45)</span>
-                </div>
-                <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl opacity-50">
+            <div class="space-y-3">
+                <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl border-l-2 border-cyan-400">
+                    <span class="text-xs">Lau bảng (Mỗi tiết)</span>
                     <input type="checkbox" class="w-4 h-4 accent-cyan-400">
-                    <span class="text-sm">Lau bảng & Đổ rác</span>
+                </div>
+                <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl border-l-2 border-cyan-400">
+                    <span class="text-xs">Vệ sinh đầu/cuối giờ</span>
+                    <input type="checkbox" class="w-4 h-4 accent-cyan-400">
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="scifi-card">
-            <div class="corner-h top-l"></div>
-            <div class="corner-h bot-r"></div>
-            <h3 class="scifi-font text-cyan-400 mb-4 tracking-widest uppercase">Timetable</h3>
-            <div class="overflow-x-auto h-full">
-                <table>
+        <section class="scifi-card" id="card-1">
+            <h3 class="scifi-font text-cyan-400 text-sm mb-4 border-b border-cyan-500/30 pb-2">02 // THỜI KHÓA BIỂU</h3>
+            <div class="overflow-y-auto h-[45vh]">
+                <table class="scifi-table">
                     <thead>
-                        <tr><th>T</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr>
+                        <tr><th>T.Gian</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th></tr>
                     </thead>
-                    <tbody id="timetable-body">
-                        </tbody>
+                    <tbody>
+                        <tr><td>13:00</td><td>Toán</td><td>Văn</td><td>Anh</td><td>Sử</td><td>Địa</td><td>QP</td></tr>
+                        <tr><td>13:45</td><td>Toán</td><td>Văn</td><td>Anh</td><td>CN</td><td>Lý</td><td>Sinh</td></tr>
+                        <tr><td colspan="7" class="text-center text-yellow-500 py-1 bg-yellow-500/5">GIẢI LAO 30'</td></tr>
+                        <tr><td>15:00</td><td>Lý</td><td>Hóa</td><td>Toán</td><td>Văn</td><td>Anh</td><td>Tin</td></tr>
+                    </tbody>
                 </table>
-                <div class="mt-4 p-3 bg-yellow-500/10 rounded-xl text-[10px] text-yellow-500 text-center font-bold italic">
-                    14:30 - 15:00: GIẢI LAO 30 PHÚT
-                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="scifi-card">
-            <div class="corner-h top-l"></div>
-            <div class="corner-h bot-r"></div>
-            <h3 class="scifi-font text-cyan-400 mb-10 tracking-widest uppercase">Economy</h3>
-            <div class="flex flex-col items-center">
-                <div class="w-32 h-32 rounded-full border-4 border-dashed border-cyan-500/30 flex items-center justify-center mb-6">
-                    <div class="text-center">
-                        <p class="text-[10px] text-slate-500">BALANCE</p>
-                        <p class="text-xl font-black">2.45M</p>
-                    </div>
+        <section class="scifi-card" id="card-2">
+            <h3 class="scifi-font text-cyan-400 text-sm mb-4 border-b border-cyan-500/30 pb-2">03 // NHÂN SỰ LỚP</h3>
+            <div class="grid grid-cols-2 gap-4 h-[45vh] overflow-y-auto pr-2">
+                <div class="p-3 bg-white/5 rounded-xl border border-white/10">
+                    <p class="text-[9px] text-cyan-500 font-bold uppercase">Ban cán sự</p>
+                    <p class="text-[11px] mt-1">Lớp trưởng: Nam</p>
+                    <p class="text-[11px]">Lớp phó: Lan</p>
                 </div>
-                <div class="w-full space-y-2">
-                    <div class="flex justify-between text-[10px] font-bold border-b border-white/10 pb-2">
-                        <span>LATEST OUT</span>
-                        <span class="text-red-400">-45,000đ</span>
+                <div class="p-3 bg-white/5 rounded-xl border border-white/10">
+                    <p class="text-[9px] text-purple-500 font-bold uppercase">Sĩ số</p>
+                    <p class="text-xl font-black">47</p>
+                    <p class="text-[9px]">Đang hoạt động</p>
+                </div>
+                <div class="col-span-2 p-3 bg-white/5 rounded-xl border border-white/10">
+                    <p class="text-[9px] text-green-500 font-bold uppercase mb-2">Giáo viên bộ môn</p>
+                    <div class="text-[10px] grid grid-cols-2 gap-2">
+                        <span>Toán: Thầy A</span>
+                        <span>Văn: Cô B</span>
+                        <span>Anh: Thầy C</span>
+                        <span>Lý: Cô D</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <section class="scifi-card" id="card-3">
+            <h3 class="scifi-font text-cyan-400 text-sm mb-10 border-b border-cyan-500/30 pb-2">04 // KINH TẾ LỚP</h3>
+            <div class="flex flex-col items-center justify-center py-6">
+                <div class="w-32 h-32 rounded-full border border-cyan-500/20 flex flex-col items-center justify-center shadow-[inset_0_0_20px_rgba(0,242,255,0.1)]">
+                    <p class="text-[10px] text-slate-500">QUỸ HIỆN TẠI</p>
+                    <p class="text-xl font-black text-green-400">2.450.000đ</p>
+                </div>
+                <div class="mt-8 w-full space-y-2">
+                    <div class="flex justify-between p-2 bg-red-500/5 rounded text-[10px]">
+                        <span>CHI GẦN NHẤT</span>
+                        <span class="text-red-400">-45.000đ</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </div>
 
-    <footer class="p-8 flex justify-center items-center">
-        <div class="text-[8px] scifi-font tracking-[0.5em] text-slate-600">
-             << SWIPE TO ROTATE VIEWPORT >> 
+    <footer class="p-6 flex flex-col items-center gap-4">
+        <div class="flex gap-4" id="dots-container">
+            <div class="nav-dot active" onclick="scrollToCard(0)">01</div>
+            <div class="nav-dot" onclick="scrollToCard(1)">02</div>
+            <div class="nav-dot" onclick="scrollToCard(2)">03</div>
+            <div class="nav-dot" onclick="scrollToCard(3)">04</div>
         </div>
+        <p class="text-[8px] scifi-font tracking-[1em] text-slate-600 animate-pulse">LƯỚT NGANG ĐỂ XOAY</p>
     </footer>
 
     <script>
-        const carousel = document.getElementById('carousel');
+        const viewport = document.getElementById('viewport');
         const cards = document.querySelectorAll('.scifi-card');
+        const dots = document.querySelectorAll('.nav-dot');
 
-        // Logic để tạo hiệu ứng xoay 3D khi cuộn
-        carousel.addEventListener('scroll', () => {
-            const containerCenter = carousel.offsetWidth / 2;
+        // Hiệu ứng cuộn 3D
+        viewport.addEventListener('scroll', () => {
+            const centerX = viewport.offsetWidth / 2;
             
-            cards.forEach(card => {
-                const cardRect = card.getBoundingClientRect();
-                const cardCenter = cardRect.left + cardRect.width / 2;
-                const distanceFromCenter = cardCenter - containerCenter;
+            cards.forEach((card, index) => {
+                const rect = card.getBoundingClientRect();
+                const cardCenter = rect.left + rect.width / 2;
+                const distance = cardCenter - centerX;
                 
-                // Tính toán góc xoay dựa trên khoảng cách
-                const rotateY = distanceFromCenter / 15; // Điều chỉnh số này để xoay nhiều hay ít
-                const scale = Math.max(0.7, 1 - Math.abs(distanceFromCenter) / 1000);
-                const opacity = Math.max(0.3, 1 - Math.abs(distanceFromCenter) / 500);
+                // Hiệu ứng xoay Cylindrical
+                const rotation = distance / 12;
+                const scale = Math.max(0.7, 1 - Math.abs(distance) / 1200);
+                card.style.transform = `scale(${scale}) rotateY(${rotation}deg)`;
+                card.style.opacity = Math.max(0.2, 1 - Math.abs(distance) / 600);
 
-                card.style.transform = `scale(${scale}) rotateY(${rotateY}deg)`;
-                card.style.opacity = opacity;
-
-                if (Math.abs(distanceFromCenter) < 100) {
+                if (Math.abs(distance) < 150) {
                     card.classList.add('active');
+                    dots.forEach(d => d.classList.remove('active'));
+                    dots[index].classList.add('active');
                 } else {
                     card.classList.remove('active');
                 }
             });
         });
 
-        // Fill giả lập dữ liệu TKB
-        const rows = [
-            ["13:00", "Toán", "Văn", "Anh", "Sử", "Địa", "QP"],
-            ["13:45", "Toán", "Văn", "Anh", "CN", "Lý", "Sinh"]
-        ];
-        const tbody = document.getElementById('timetable-body');
-        rows.forEach(r => {
-            let rowHtml = `<tr>${r.map(td => `<td>${td}</td>`).join('')}</tr>`;
-            tbody.innerHTML += rowHtml;
-        });
+        // Di chuyển nhanh qua thẻ
+        function scrollToCard(index) {
+            const card = document.getElementById(`card-${index}`);
+            viewport.scrollTo({
+                left: card.offsetLeft - (viewport.offsetWidth - card.offsetWidth) / 2,
+                behavior: 'smooth'
+            });
+        }
+
+        // Cập nhật giờ hệ thống
+        setInterval(() => {
+            document.getElementById('live-time').innerText = new Date().toLocaleTimeString('vi-VN');
+        }, 1000);
     </script>
 </body>
 </html>
