@@ -3,70 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10A7 - Galactic Operating System</title>
+    <title>10A7 - Class OS v3.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-
-        :root {
-            --neon-cyan: #00f2ff;
-            --neon-purple: #7000ff;
-        }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: radial-gradient(circle at bottom left, #1e1b4b, #020617);
+            background: radial-gradient(circle at bottom left, #111827, #020617);
             color: #f8fafc;
             min-height: 100vh;
-            overflow-x: hidden;
         }
-
         .glass {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
         .brand-10a7 {
             font-size: 5rem;
             font-weight: 900;
-            background: linear-gradient(to bottom, #fff 30%, #38bdf8);
+            background: linear-gradient(to bottom, #fff 30%, #0ea5e9);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.5));
+            filter: drop-shadow(0 0 15px rgba(14, 165, 233, 0.4));
         }
-
-        /* Custom Checkbox */
         .quest-check {
             appearance: none;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border: 2px solid rgba(255,255,255,0.2);
             border-radius: 6px;
             cursor: pointer;
-            position: relative;
             transition: all 0.3s;
         }
-
         .quest-check:checked {
-            background: var(--neon-cyan);
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 15px var(--neon-cyan);
-        }
-
-        .quest-check:checked::after {
-            content: '\f00c';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            color: #000;
-            font-size: 14px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            background: #00f2ff;
+            box-shadow: 0 0 15px #00f2ff;
         }
     </style>
 </head>
@@ -74,13 +47,12 @@
 
     <header class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
         <div>
-            <p class="text-cyan-400 font-bold tracking-[0.3em] uppercase text-sm mb-2">Class Operation System</p>
+            <p class="text-sky-400 font-bold tracking-[0.3em] uppercase text-sm mb-2">Class Operation System</p>
             <h1 class="brand-10a7 leading-none">10A7</h1>
         </div>
-        <div class="glass px-8 py-4 rounded-2xl text-right relative overflow-hidden">
-            <p class="text-xs text-slate-500 font-bold uppercase relative z-10">Sĩ số lớp</p>
-            <p class="text-3xl font-black relative z-10">47 <span class="text-sm font-light text-slate-400">Học sinh</span></p>
-            <i class="fa-solid fa-users absolute -left-2 -bottom-2 text-5xl opacity-5"></i>
+        <div class="glass px-8 py-4 rounded-2xl text-right">
+            <p class="text-xs text-slate-500 font-bold uppercase">Sĩ số lớp 10A7</p>
+            <p class="text-3xl font-black">47 <span class="text-sm font-light text-slate-400">Học sinh</span></p>
         </div>
     </header>
 
@@ -91,75 +63,38 @@
                 <div class="flex justify-between items-start mb-8">
                     <div>
                         <h2 class="text-2xl font-bold mb-1">Theo dõi trực nhật</h2>
-                        <p class="text-slate-400 text-sm">Nhiệm vụ tuần từ Thứ 2 - Thứ 7</p>
+                        <p id="duty-period" class="text-slate-400 text-sm">Từ 27/01 - 04/02/2026</p>
                     </div>
-                    <div id="duty-badge" class="bg-cyan-500/20 text-cyan-400 px-6 py-2 rounded-full text-xs font-bold border border-cyan-500/30">
-                        ĐANG TẢI DỮ LIỆU...
+                    <div class="bg-sky-500/20 text-sky-400 px-6 py-2 rounded-full text-xs font-bold border border-sky-500/30">
+                        TỔ 5 TRỰC TUẦN NÀY
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div class="p-5 bg-white/5 rounded-3xl border border-white/10 flex flex-col gap-4">
-                        <div class="flex justify-between items-start">
-                            <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
-                                <i class="fa-solid fa-chalkboard"></i>
-                            </div>
-                            <input type="checkbox" class="quest-check" onchange="updateProgress()">
-                        </div>
-                        <div>
-                            <p class="font-bold text-sm">Lau bảng</p>
-                            <p class="text-[10px] text-slate-500 uppercase">Mỗi tiết học</p>
-                        </div>
+                    <div class="p-4 bg-white/5 rounded-3xl border border-white/10">
+                        <input type="checkbox" class="quest-check mb-3" onchange="updateProgress()">
+                        <p class="font-bold text-sm">Lau bảng</p>
+                        <p class="text-[10px] text-slate-500 uppercase">Duy trì sạch sẽ</p>
                     </div>
-
-                    <div class="p-5 bg-white/5 rounded-3xl border border-white/10 flex flex-col gap-4">
-                        <div class="flex justify-between items-start">
-                            <div class="w-10 h-10 rounded-xl bg-yellow-500/20 flex items-center justify-center text-yellow-400">
-                                <i class="fa-solid fa-sun"></i>
-                            </div>
-                            <input type="checkbox" class="quest-check" onchange="updateProgress()">
-                        </div>
-                        <div>
-                            <p class="font-bold text-sm">Đầu giờ</p>
-                            <p class="text-[10px] text-slate-500 uppercase">Trước 7:00</p>
-                        </div>
+                    <div class="p-4 bg-white/5 rounded-3xl border border-white/10">
+                        <input type="checkbox" class="quest-check mb-3" onchange="updateProgress()">
+                        <p class="font-bold text-sm">Vệ sinh đầu giờ</p>
+                        <p class="text-[10px] text-slate-500 uppercase">Trước 12:45</p>
                     </div>
-
-                    <div class="p-5 bg-white/5 rounded-3xl border border-white/10 flex flex-col gap-4">
-                        <div class="flex justify-between items-start">
-                            <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400">
-                                <i class="fa-solid fa-moon"></i>
-                            </div>
-                            <input type="checkbox" class="quest-check" onchange="updateProgress()">
-                        </div>
-                        <div>
-                            <p class="font-bold text-sm">Cuối giờ</p>
-                            <p class="text-[10px] text-slate-500 uppercase">Sau tiết 5</p>
-                        </div>
+                    <div class="p-4 bg-white/5 rounded-3xl border border-white/10">
+                        <input type="checkbox" class="quest-check mb-3" onchange="updateProgress()">
+                        <p class="font-bold text-sm">Vệ sinh cuối giờ</p>
+                        <p class="text-[10px] text-slate-500 uppercase">Sau 17:15</p>
                     </div>
-
-                    <div class="p-5 bg-white/5 rounded-3xl border border-white/10 flex flex-col gap-4">
-                        <div class="flex justify-between items-start">
-                            <div class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center text-green-400">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </div>
-                            <input type="checkbox" class="quest-check" onchange="updateProgress()">
-                        </div>
-                        <div>
-                            <p class="font-bold text-sm">Đổ rác</p>
-                            <p class="text-[10px] text-slate-500 uppercase">Đúng nơi quy định</p>
-                        </div>
+                    <div class="p-4 bg-white/5 rounded-3xl border border-white/10">
+                        <input type="checkbox" class="quest-check mb-3" onchange="updateProgress()">
+                        <p class="font-bold text-sm">Đổ rác</p>
+                        <p class="text-[10px] text-slate-500 uppercase">Đúng quy định</p>
                     </div>
                 </div>
 
-                <div class="space-y-2">
-                    <div class="flex justify-between text-[10px] font-bold tracking-widest text-slate-400">
-                        <span>TIẾN ĐỘ HOÀN THÀNH</span>
-                        <span id="progress-text" class="text-cyan-400">0%</span>
-                    </div>
-                    <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                        <div id="progress-bar" class="h-full bg-cyan-400 w-0 transition-all duration-500 shadow-[0_0_15px_#00f2ff]"></div>
-                    </div>
+                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-sky-400 w-0 transition-all duration-500 shadow-[0_0_15px_#0ea5e9]"></div>
                 </div>
             </div>
 
@@ -168,19 +103,9 @@
                     <i class="fa-solid fa-fire text-orange-500"></i> TOP ĐẠT CHUỖI
                 </h3>
                 <div class="space-y-4">
-                    <div class="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <span class="text-2xl font-black italic text-orange-500">01</span>
-                        <div class="flex-1">
-                            <p class="font-bold text-sm">Nguyễn Hoàng Nam</p>
-                            <p class="text-[10px] text-slate-500">15 DAYS STREAK</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 p-4 opacity-50">
-                        <span class="text-2xl font-black italic text-slate-500">02</span>
-                        <div class="flex-1">
-                            <p class="font-bold text-sm">Lê Minh Tâm</p>
-                            <p class="text-[10px] text-slate-500">12 DAYS STREAK</p>
-                        </div>
+                    <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span class="text-sm font-bold">1. Nguyễn Hoàng Nam</span>
+                        <span class="text-orange-400 font-black">15 DAYS</span>
                     </div>
                 </div>
             </div>
@@ -189,29 +114,33 @@
                 <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
                     <i class="fa-solid fa-wallet text-green-400"></i> BÁO CÁO THU CHI
                 </h3>
-                <div class="flex justify-between items-end mb-6">
+                <div class="flex justify-between items-end">
                     <p class="text-xs text-slate-500 font-bold uppercase">Quỹ lớp hiện tại</p>
                     <p class="text-2xl font-black text-green-400">2,450,000đ</p>
-                </div>
-                <div class="p-4 bg-red-500/10 border-l-4 border-red-500 rounded-r-xl">
-                    <p class="text-[11px] text-slate-400 uppercase">Chi gần nhất</p>
-                    <p class="text-sm font-bold">Mua dụng cụ vệ sinh: -45.000đ</p>
                 </div>
             </div>
         </div>
 
         <div class="md:col-span-4 space-y-6">
-            <div class="glass p-8 rounded-[3rem] border-t-4 border-cyan-500 h-full">
-                <h3 class="text-xl font-bold mb-8">Thời khóa biểu</h3>
-                <canvas id="scheduleChart"></canvas>
-                <div class="mt-10 space-y-4">
-                    <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl">
-                        <span class="text-sm">Công nghệ (Tiết 1-2)</span>
-                        <span class="text-[10px] font-bold text-cyan-400">PHÒNG LAB</span>
+            <div class="glass p-8 rounded-[3rem] border-t-4 border-sky-500">
+                <h3 class="text-xl font-bold mb-6">Thời khóa biểu Chiều</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 bg-sky-500/10 rounded-xl border-l-4 border-sky-400">
+                        <div>
+                            <p class="text-xs font-bold text-sky-400">CÓ MẶT TẠI LỚP</p>
+                            <p class="text-sm">Chuẩn bị bài học</p>
+                        </div>
+                        <span class="font-black">12:45</span>
                     </div>
-                    <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl opacity-60">
-                        <span class="text-sm">Toán học (Tiết 3)</span>
-                        <span class="text-[10px] font-bold text-purple-400">PHÒNG 10A7</span>
+                    
+                    <div class="space-y-2 text-sm opacity-80">
+                        <div class="flex justify-between"><span>Tiết 1:</span> <span class="font-bold">13:00 - 13:45</span></div>
+                        <div class="flex justify-between"><span>Tiết 2:</span> <span class="font-bold">13:45 - 14:30</span></div>
+                        <div class="flex justify-between text-yellow-500 font-bold italic"><span>Giải lao:</span> <span>30 phút</span></div>
+                        <div class="flex justify-between"><span>Tiết 3:</span> <span class="font-bold">15:00 - 15:45</span></div>
+                        <div class="flex justify-between"><span>Tiết 4:</span> <span class="font-bold">15:45 - 16:30</span></div>
+                        <div class="flex justify-between text-yellow-500 font-bold italic"><span>Ra chơi:</span> <span>10 phút</span></div>
+                        <div class="flex justify-between"><span>Tiết 5:</span> <span class="font-bold">16:40 - 17:15</span></div>
                     </div>
                 </div>
             </div>
@@ -219,54 +148,19 @@
     </main>
 
     <nav class="fixed bottom-8 left-1/2 -translate-x-1/2 glass px-10 py-5 rounded-full flex gap-12 shadow-2xl z-50">
-        <button class="text-cyan-400 hover:scale-125 transition-transform"><i class="fa-solid fa-house-user text-2xl"></i></button>
-        <button class="text-slate-500 hover:text-white transition-all"><i class="fa-solid fa-gamepad text-2xl"></i></button>
-        <button class="text-slate-500 hover:text-white transition-all"><i class="fa-solid fa-book-atlas text-2xl"></i></button>
-        <button class="text-slate-500 hover:text-white transition-all"><i class="fa-solid fa-gear text-2xl"></i></button>
+        <button class="text-sky-400"><i class="fa-solid fa-house-user text-2xl"></i></button>
+        <button class="text-slate-500 hover:text-white"><i class="fa-solid fa-gamepad text-2xl"></i></button>
+        <button class="text-slate-500 hover:text-white"><i class="fa-solid fa-book-atlas text-2xl"></i></button>
+        <button class="text-slate-500 hover:text-white"><i class="fa-solid fa-gear text-2xl"></i></button>
     </nav>
 
     <script>
-        // Logic Trực Nhật Tự Động (6 tổ xoay vòng)
-        function getDutyGroup() {
-            const startWeek = 1; // Giả sử tuần 1 bắt đầu từ tổ 1
-            const now = new Date();
-            const oneJan = new Date(now.getFullYear(), 0, 1);
-            const numberOfDays = Math.floor((now - oneJan) / (24 * 60 * 60 * 1000));
-            const currentWeek = Math.ceil((numberOfDays + oneJan.getDay() + 1) / 7);
-            
-            // Xoay vòng 6 tổ
-            const groupIndex = (currentWeek % 6) || 6;
-            document.getElementById('duty-badge').innerText = `TỔ ${groupIndex} TRỰC TUẦN NÀY`;
-        }
-
         function updateProgress() {
             const checks = document.querySelectorAll('.quest-check');
             const checked = Array.from(checks).filter(c => c.checked).length;
             const percent = (checked / checks.length) * 100;
-            
             document.getElementById('progress-bar').style.width = percent + '%';
-            document.getElementById('progress-text').innerText = percent + '%';
         }
-
-        // Khởi tạo biểu đồ TKB
-        const ctx = document.getElementById('scheduleChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Công nghệ', 'Toán', 'Văn', 'Nghỉ'],
-                datasets: [{
-                    data: [40, 20, 20, 20],
-                    backgroundColor: ['#22d3ee', '#a855f7', '#ec4899', '#1e293b'],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                cutout: '85%',
-                plugins: { legend: { display: false } }
-            }
-        });
-
-        getDutyGroup();
     </script>
 </body>
 </html>
