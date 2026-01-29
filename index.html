@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
 
         :root { --neon-cyan: #00f2ff; }
 
@@ -26,25 +26,25 @@
         .carousel-viewport {
             display: flex;
             overflow-x: scroll;
-            height: 82vh;
+            height: 80vh;
             align-items: center;
-            padding: 0 5vw;
+            padding: 0 4vw;
             scroll-snap-type: x mandatory;
-            gap: 25px;
+            gap: 20px;
             -webkit-overflow-scrolling: touch;
         }
         .carousel-viewport::-webkit-scrollbar { display: none; }
 
-        /* Card - Tối ưu diện tích hiển thị */
+        /* Card - Tối ưu diện tích cho chữ lớn */
         .scifi-card {
             min-width: 92vw;
             height: 72vh;
             scroll-snap-align: center;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(0, 242, 255, 0.3);
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(0, 242, 255, 0.4);
             border-radius: 40px;
-            padding: 30px 20px;
+            padding: 25px;
             position: relative;
             transition: all 0.4s ease;
             transform-style: preserve-3d;
@@ -52,32 +52,32 @@
             transform: scale(0.8);
         }
 
-        .scifi-card.active { opacity: 1; transform: scale(1); border-color: var(--neon-cyan); box-shadow: 0 0 50px rgba(0, 242, 255, 0.1); }
+        .scifi-card.active { opacity: 1; transform: scale(1); border-color: var(--neon-cyan); box-shadow: 0 0 40px rgba(0, 242, 255, 0.15); }
 
-        /* Chữ lớn cho bảng */
-        .scifi-table { width: 100%; font-size: 1rem; text-align: left; }
-        .scifi-table th { color: var(--neon-cyan); padding: 15px 5px; border-bottom: 2px solid rgba(0,242,255,0.2); font-size: 0.75rem; }
-        .scifi-table td { padding: 15px 5px; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: 700; }
+        /* Tăng cỡ chữ bảng cực đại */
+        .scifi-table { width: 100%; font-size: 1.1rem; text-align: left; }
+        .scifi-table th { color: var(--neon-cyan); padding: 12px 5px; border-bottom: 2px solid rgba(0,242,255,0.3); font-size: 0.8rem; }
+        .scifi-table td { padding: 14px 5px; border-bottom: 1px solid rgba(255,255,255,0.15); font-weight: 700; }
 
-        /* Checkbox lớn cho ngón tay */
-        .duty-grid { display: grid; grid-template-columns: 1.8fr repeat(6, 1fr); gap: 5px; align-items: center; }
+        /* Checkbox cực đại cho ngón tay */
+        .duty-grid { display: grid; grid-template-columns: 2fr repeat(6, 1fr); gap: 4px; align-items: center; }
         .quest-check {
-            width: 28px; height: 28px;
+            width: 30px; height: 30px;
             accent-color: var(--neon-cyan);
             cursor: pointer;
         }
 
-        /* Nav Dots lớn hơn */
+        /* Nav Dots lớn */
         .nav-dot {
-            width: 45px; height: 45px;
+            width: 48px; height: 48px;
             border-radius: 50%;
             border: 2px solid rgba(0,242,255,0.4);
             display: flex; align-items: center; justify-content: center;
-            font-size: 18px; font-family: 'Orbitron';
-            color: rgba(0,242,255,0.7);
+            font-size: 20px; font-family: 'Orbitron';
+            color: rgba(0,242,255,0.8);
             transition: 0.3s;
         }
-        .nav-dot.active { background: var(--neon-cyan); color: #000; box-shadow: 0 0 25px var(--neon-cyan); border: none; }
+        .nav-dot.active { background: var(--neon-cyan); color: #000; box-shadow: 0 0 30px var(--neon-cyan); border: none; }
     </style>
 </head>
 <body class="flex flex-col">
@@ -86,8 +86,8 @@
         <div>
             <h1 class="scifi-font font-black text-3xl tracking-tighter italic text-white" style="text-shadow: 0 0 15px #00f2ff;">10A7 // HUB</h1>
         </div>
-        <div class="text-right scifi-font">
-            <p id="live-time" class="text-lg font-bold text-white leading-none">00:00:00</p>
+        <div class="text-right">
+            <p id="live-time" class="text-xl font-bold text-white scifi-font leading-none">00:00:00</p>
             <p class="text-[10px] text-cyan-400 font-bold uppercase mt-1">Status: Stable</p>
         </div>
     </header>
@@ -95,25 +95,24 @@
     <div class="carousel-viewport" id="viewport">
         
         <section class="scifi-card active" id="card-0">
-            <div class="flex justify-between items-start mb-6 border-b border-cyan-500/30 pb-4">
-                <h3 class="scifi-font text-cyan-400 text-sm">01 // TRỰC NHẬT</h3>
-                <p class="text-xs text-slate-400 font-bold uppercase">Tuần 20</p>
-            </div>
+            <h3 class="scifi-font text-cyan-400 text-sm mb-4 border-b border-cyan-500/30 pb-2 uppercase">01 // TRỰC NHẬT</h3>
             
-            <div class="mb-6">
-                <p class="text-5xl font-black text-white uppercase leading-none">Tổ 05</p>
-                <p class="text-base text-cyan-500 font-bold mt-2">27/01 - 04/02/2026</p>
+            <div class="mb-6 flex justify-between items-end">
+                <div>
+                    <p class="text-5xl font-black text-white leading-none">Tổ 05</p>
+                    <p class="text-base text-cyan-400 font-bold mt-2">27/01 - 04/02/2026</p>
+                </div>
             </div>
 
             <div class="space-y-4 overflow-y-auto h-[40vh] pr-1">
-                <div class="duty-grid px-1 text-[10px] font-bold text-slate-500 uppercase mb-2">
+                <div class="duty-grid px-1 text-[11px] font-bold text-slate-500 uppercase mb-2">
                     <span>Nội dung</span><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span>
                 </div>
                 
                 <div class="bg-white/5 p-4 rounded-3xl border border-white/10">
-                    <p class="text-sm font-black mb-4 text-white uppercase tracking-tight">Lau bảng (Mỗi tiết)</p>
+                    <p class="text-base font-black mb-4 text-white uppercase">Lau bảng</p>
                     <div class="duty-grid">
-                        <i class="fa-solid fa-chalkboard text-slate-600 text-lg"></i>
+                        <i class="fa-solid fa-chalkboard text-slate-500 text-xl"></i>
                         <input type="checkbox" class="quest-check mx-auto">
                         <input type="checkbox" class="quest-check mx-auto">
                         <input type="checkbox" class="quest-check mx-auto">
@@ -124,9 +123,22 @@
                 </div>
 
                 <div class="bg-white/5 p-4 rounded-3xl border border-white/10">
-                    <p class="text-sm font-black mb-4 text-white uppercase tracking-tight">Vệ sinh đầu/cuối giờ</p>
+                    <p class="text-base font-black mb-4 text-white uppercase">Đầu/Cuối giờ</p>
                     <div class="duty-grid">
-                        <i class="fa-solid fa-broom text-slate-600 text-lg"></i>
+                        <i class="fa-solid fa-broom text-slate-500 text-xl"></i>
+                        <input type="checkbox" class="quest-check mx-auto">
+                        <input type="checkbox" class="quest-check mx-auto">
+                        <input type="checkbox" class="quest-check mx-auto">
+                        <input type="checkbox" class="quest-check mx-auto">
+                        <input type="checkbox" class="quest-check mx-auto">
+                        <input type="checkbox" class="quest-check mx-auto">
+                    </div>
+                </div>
+
+                <div class="bg-white/5 p-4 rounded-3xl border border-white/10">
+                    <p class="text-base font-black mb-4 text-white uppercase">Rác & TBị</p>
+                    <div class="duty-grid">
+                        <i class="fa-solid fa-trash-can text-slate-500 text-xl"></i>
                         <input type="checkbox" class="quest-check mx-auto">
                         <input type="checkbox" class="quest-check mx-auto">
                         <input type="checkbox" class="quest-check mx-auto">
@@ -139,16 +151,16 @@
         </section>
 
         <section class="scifi-card" id="card-1">
-            <h3 class="scifi-font text-cyan-400 text-sm mb-6 border-b border-cyan-500/30 pb-4">02 // THỜI KHÓA BIỂU</h3>
-            <div class="overflow-x-auto h-full">
+            <h3 class="scifi-font text-cyan-400 text-sm mb-6 border-b border-cyan-500/30 pb-2 uppercase">02 // THỜI KHÓA BIỂU</h3>
+            <div class="overflow-x-auto">
                 <table class="scifi-table">
                     <thead>
-                        <tr><th>T.Gian</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th></tr>
+                        <tr><th>GIỜ</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th></tr>
                     </thead>
                     <tbody class="text-white">
                         <tr><td>13:00</td><td>Toán</td><td>Văn</td><td>Anh</td><td>Sử</td><td>Địa</td><td>QP</td></tr>
                         <tr><td>13:45</td><td>Toán</td><td>Văn</td><td>Anh</td><td>CN</td><td>Lý</td><td>Sinh</td></tr>
-                        <tr><td colspan="7" class="text-center text-yellow-500 py-4 bg-yellow-500/10 font-bold text-sm">GIẢI LAO 30 PHÚT</td></tr>
+                        <tr><td colspan="7" class="text-center text-yellow-500 py-4 bg-yellow-500/10 font-bold text-base">GIẢI LAO 30 PHÚT</td></tr>
                         <tr><td>15:00</td><td>Lý</td><td>Hóa</td><td>Toán</td><td>Văn</td><td>Anh</td><td>Tin</td></tr>
                     </tbody>
                 </table>
@@ -156,42 +168,42 @@
         </section>
 
         <section class="scifi-card" id="card-2">
-            <h3 class="scifi-font text-cyan-400 text-sm mb-6 border-b border-cyan-500/30 pb-4">03 // NHÂN SỰ LỚP</h3>
+            <h3 class="scifi-font text-cyan-400 text-sm mb-6 border-b border-cyan-500/30 pb-2 uppercase">03 // NHÂN SỰ LỚP</h3>
             <div class="space-y-6">
                 <div class="p-6 bg-white/5 rounded-3xl border border-white/10">
-                    <p class="text-xs text-cyan-400 font-bold uppercase mb-4 tracking-widest">Ban cán sự</p>
-                    <div class="space-y-3 text-lg font-bold">
+                    <p class="text-sm text-cyan-400 font-bold uppercase mb-4 tracking-widest">Ban cán sự</p>
+                    <div class="space-y-4 text-xl font-bold">
                         <p class="flex justify-between"><span>Lớp trưởng:</span> <span class="text-white">Nam</span></p>
                         <p class="flex justify-between"><span>Lớp phó:</span> <span class="text-white">Lan</span></p>
                     </div>
                 </div>
                 <div class="p-6 bg-white/5 rounded-3xl border border-white/10 text-center">
-                    <p class="text-xs text-purple-400 font-bold uppercase mb-2">Sĩ số đơn vị</p>
-                    <p class="text-7xl font-black text-white">47</p>
+                    <p class="text-sm text-purple-400 font-bold uppercase mb-2">Sĩ số đơn vị</p>
+                    <p class="text-8xl font-black text-white">47</p>
                 </div>
             </div>
         </section>
 
         <section class="scifi-card" id="card-3">
-            <h3 class="scifi-font text-cyan-400 text-sm mb-10 border-b border-cyan-500/30 pb-4">04 // KINH TẾ LỚP</h3>
-            <div class="flex flex-col items-center justify-center h-full pb-20">
-                <div class="w-48 h-48 rounded-full border-8 border-cyan-500/20 flex flex-col items-center justify-center bg-cyan-500/5 shadow-[0_0_50px_rgba(0,242,255,0.15)]">
-                    <p class="text-xs text-slate-400 font-bold uppercase mb-2">Số dư quỹ</p>
-                    <p class="text-3xl font-black text-green-400">2.450.000đ</p>
+            <h3 class="scifi-font text-cyan-400 text-sm mb-10 border-b border-cyan-500/30 pb-2 uppercase">04 // KINH TẾ LỚP</h3>
+            <div class="flex flex-col items-center justify-center h-full pb-16">
+                <div class="w-52 h-52 rounded-full border-8 border-cyan-500/20 flex flex-col items-center justify-center bg-cyan-500/5 shadow-[0_0_60px_rgba(0,242,255,0.2)]">
+                    <p class="text-sm text-slate-400 font-bold uppercase mb-2">Số dư quỹ</p>
+                    <p class="text-4xl font-black text-green-400">2.450K</p>
                 </div>
             </div>
         </section>
 
     </div>
 
-    <footer class="p-8 flex flex-col items-center gap-8">
+    <footer class="p-8 flex flex-col items-center gap-6">
         <div class="flex gap-8" id="dots-container">
             <div class="nav-dot active" onclick="scrollToCard(0)">1</div>
             <div class="nav-dot" onclick="scrollToCard(1)">2</div>
             <div class="nav-dot" onclick="scrollToCard(2)">3</div>
             <div class="nav-dot" onclick="scrollToCard(3)">4</div>
         </div>
-        <p class="text-[12px] scifi-font tracking-[0.6em] text-slate-600">COMMAND PORTAL</p>
+        <p class="text-[14px] scifi-font tracking-[0.5em] text-slate-500">SYSTEM HUB</p>
     </footer>
 
     <script>
