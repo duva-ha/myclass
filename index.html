@@ -2,223 +2,265 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10A7 - Galactic Operating System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>10A7 - Starship OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap');
+
+        :root {
+            --scifi-cyan: #00f2ff;
+            --scifi-blue: #0ea5e9;
+        }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: radial-gradient(circle at bottom left, #111827, #020617);
+            background-color: #020617;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 80%),
+                linear-gradient(rgba(14, 165, 233, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 50px 50px, 50px 50px;
             color: #f8fafc;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s ease;
+        .scifi-font { font-family: 'Orbitron', sans-serif; }
+
+        /* Carousel Container */
+        .scifi-viewport {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 20px 10vw;
+            gap: 20px;
+            flex: 1;
+            align-items: center;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .brand-10a7 {
-            font-size: 5rem;
-            font-weight: 900;
-            background: linear-gradient(to bottom, #fff 30%, #0ea5e9);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(14, 165, 233, 0.4));
+        .scifi-viewport::-webkit-scrollbar { display: none; }
+
+        /* Card Style */
+        .scifi-card {
+            min-width: 85vw;
+            max-width: 85vw;
+            height: 70vh;
+            scroll-snap-align: center;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(14, 165, 233, 0.3);
+            border-radius: 30px;
+            position: relative;
+            padding: 25px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, opacity 0.3s;
         }
 
-        .quest-check {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
+        /* Sci-fi Corners */
+        .scifi-card::before, .scifi-card::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--scifi-cyan);
+        }
+        .scifi-card::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; border-radius: 30px 0 0 0; }
+        .scifi-card::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; border-radius: 0 0 30px 0; }
+
+        /* Header Animation */
+        .glitch {
+            animation: glitch 3s infinite;
+            text-shadow: 2px 0 var(--scifi-cyan), -2px 0 #ff00c1;
         }
 
-        .quest-check:checked {
-            background: #00f2ff;
-            box-shadow: 0 0 10px #00f2ff;
+        @keyframes glitch {
+            0% { transform: skew(0deg); }
+            1% { transform: skew(10deg); }
+            2% { transform: skew(0deg); }
         }
 
-        /* Table Styling */
-        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
-        th { color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 10px; }
-        td { background: rgba(255, 255, 255, 0.03); padding: 12px; font-size: 0.85rem; }
-        td:first-child { border-radius: 12px 0 0 12px; font-weight: 800; color: #0ea5e9; width: 100px; }
-        td:last-child { border-radius: 0 12px 12px 0; }
-        .current-day { border: 1px solid #0ea5e9; background: rgba(14, 165, 233, 0.1) !important; }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--scifi-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--scifi-cyan);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        table { width: 100%; color: #94a3b8; font-size: 0.75rem; }
+        th { text-align: left; padding: 10px; color: var(--scifi-cyan); border-bottom: 1px solid rgba(14, 165, 233, 0.2); }
+        td { padding: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .active-row { background: rgba(14, 165, 233, 0.1); color: white; }
+
+        .scan-line {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--scifi-cyan), transparent);
+            animation: scan 4s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
     </style>
 </head>
-<body class="p-6 md:p-10 pb-32">
+<body>
 
-    <header class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
-        <div>
-            <p class="text-sky-400 font-bold tracking-[0.3em] uppercase text-sm mb-2">Class Operation System</p>
-            <h1 class="brand-10a7 leading-none">10A7</h1>
+    <header class="p-6 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="status-dot"></div>
+            <h1 class="scifi-font font-black text-xl tracking-tighter glitch">10A7 // COMMAND</h1>
         </div>
-        <div class="glass px-8 py-4 rounded-2xl text-right">
-            <p class="text-xs text-slate-500 font-bold uppercase">Sĩ số lớp 10A7</p>
-            <p class="text-3xl font-black">47 <span class="text-sm font-light text-slate-400">Học sinh</span></p>
+        <div class="text-right">
+            <p class="text-[10px] scifi-font text-sky-400">SECTOR: EDUCATION</p>
+            <p class="text-xs font-bold">47 UNITS ONLINE</p>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="scifi-viewport">
         
-        <div class="lg:col-span-4 space-y-6">
-            <div class="glass p-8 rounded-[2.5rem] relative overflow-hidden">
-                <div class="mb-6">
-                    <div class="bg-sky-500/20 text-sky-400 px-4 py-1 rounded-full text-[10px] font-bold border border-sky-500/30 inline-block mb-2">
-                        TỔ 5 TRỰC TUẦN NÀY
-                    </div>
-                    <h2 class="text-xl font-bold">Theo dõi trực nhật</h2>
-                    <p class="text-slate-400 text-xs">Từ 27/01 - 04/02/2026</p>
+        <section class="scifi-card">
+            <div class="scan-line"></div>
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h2 class="scifi-font text-lg font-bold text-sky-400">DUTY MONITOR</h2>
+                    <p class="text-[10px] opacity-50">27/01 - 04/02 // WEEK 20</p>
                 </div>
-
-                <div class="space-y-4 mb-6">
-                    <div class="flex items-center gap-3">
-                        <input type="checkbox" class="quest-check" onchange="updateProgress()">
-                        <span class="text-sm">Lau bảng (Mỗi tiết)</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <input type="checkbox" class="quest-check" onchange="updateProgress()">
-                        <span class="text-sm">Vệ sinh đầu giờ (Trước 12:45)</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <input type="checkbox" class="quest-check" onchange="updateProgress()">
-                        <span class="text-sm">Vệ sinh cuối giờ (Sau 17:15)</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <input type="checkbox" class="quest-check" onchange="updateProgress()">
-                        <span class="text-sm">Đổ rác (Đúng nơi quy định)</span>
-                    </div>
+                <div class="text-right scifi-font">
+                    <p class="text-[10px]">CURRENT UNIT</p>
+                    <p class="text-lg font-black text-white">GROUP 05</p>
                 </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="flex items-center justify-between p-4 bg-white/5 border-l-2 border-sky-400 rounded-r-xl">
+                    <span class="text-sm">Vệ sinh đầu giờ (12:45)</span>
+                    <i class="fa-solid fa-circle-check text-sky-400"></i>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/5 border-l-2 border-slate-600 rounded-r-xl opacity-50">
+                    <span class="text-sm">Lau bảng (Tiết 1-5)</span>
+                    <i class="fa-solid fa-circle text-slate-600"></i>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/5 border-l-2 border-slate-600 rounded-r-xl opacity-50">
+                    <span class="text-sm">Vệ sinh cuối giờ (17:15)</span>
+                    <i class="fa-solid fa-circle text-slate-600"></i>
+                </div>
+            </div>
 
+            <div class="absolute bottom-8 left-8 right-8">
+                <p class="text-[10px] scifi-font mb-2 tracking-widest">MISSION PROGRESS</p>
                 <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="h-full bg-sky-400 w-0 transition-all duration-500"></div>
+                    <div class="h-full bg-sky-400 w-1/3 shadow-[0_0_10px_#0ea5e9]"></div>
                 </div>
             </div>
+        </section>
 
-            <div class="glass p-8 rounded-[2.5rem]">
-                <h3 class="text-lg font-bold mb-4 flex items-center gap-3">
-                    <i class="fa-solid fa-fire text-orange-500"></i> TOP ĐẠT CHUỖI
-                </h3>
-                <div class="p-3 bg-white/5 rounded-xl border border-white/5 flex justify-between items-center">
-                    <span class="text-sm">Nguyễn Hoàng Nam</span>
-                    <span class="text-orange-400 font-black">15 DAYS</span>
+        <section class="scifi-card">
+            <div class="scan-line"></div>
+            <h2 class="scifi-font text-lg font-bold text-sky-400 mb-4">TIMETABLE MATRIX</h2>
+            <div class="overflow-x-auto h-[50vh]">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>TIME</th>
+                            <th>M</th>
+                            <th>T</th>
+                            <th>W</th>
+                            <th>T</th>
+                            <th>F</th>
+                            <th>S</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="active-row">
+                            <td>13:00</td>
+                            <td>Toán</td>
+                            <td>Văn</td>
+                            <td>Anh</td>
+                            <td>Sử</td>
+                            <td>Địa</td>
+                            <td>QP</td>
+                        </tr>
+                        <tr>
+                            <td>13:45</td>
+                            <td>Toán</td>
+                            <td>Văn</td>
+                            <td>Anh</td>
+                            <td>CN</td>
+                            <td>Lý</td>
+                            <td>Snh</td>
+                        </tr>
+                        <tr><td colspan="7" class="text-center text-[8px] text-yellow-500 py-2">--- 14:30 BREAK (30M) ---</td></tr>
+                        <tr>
+                            <td>15:00</td>
+                            <td>Lý</td>
+                            <td>Hóa</td>
+                            <td>Toán</td>
+                            <td>Văn</td>
+                            <td>Anh</td>
+                            <td>Tin</td>
+                        </tr>
+                        <tr>
+                            <td>15:45</td>
+                            <td>Lý</td>
+                            <td>Hóa</td>
+                            <td>Toán</td>
+                            <td>Văn</td>
+                            <td>Anh</td>
+                            <td>SH</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="scifi-card">
+            <div class="scan-line"></div>
+            <h2 class="scifi-font text-lg font-bold text-sky-400 mb-6">ECONOMY CORE</h2>
+            <div class="flex flex-col items-center justify-center h-full pb-20">
+                <div class="relative">
+                    <svg class="w-40 h-40">
+                        <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(14, 165, 233, 0.1)" stroke-width="10" />
+                        <circle cx="80" cy="80" r="70" fill="none" stroke="var(--scifi-cyan)" stroke-width="10" stroke-dasharray="440" stroke-dashoffset="110" />
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <p class="text-[10px] scifi-font">BALANCE</p>
+                        <p class="text-xl font-black">2.45M</p>
+                    </div>
+                </div>
+                <div class="mt-8 w-full space-y-2">
+                    <div class="flex justify-between text-xs bg-white/5 p-2 rounded">
+                        <span>LATEST OUT</span>
+                        <span class="text-red-400">-45K</span>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="glass p-8 rounded-[2.5rem]">
-                <h3 class="text-lg font-bold mb-4 flex items-center gap-3">
-                    <i class="fa-solid fa-wallet text-green-400"></i> BÁO CÁO THU CHI
-                </h3>
-                <div class="flex justify-between items-end">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase">Quỹ lớp hiện tại</p>
-                    <p class="text-xl font-black text-green-400">2,450,000đ</p>
-                </div>
-            </div>
-        </div>
+    </div>
 
-        <div class="lg:col-span-8">
-            <div class="glass p-8 rounded-[3rem] h-full">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-2xl font-bold italic tracking-tighter uppercase text-sky-400">Thời khóa biểu Chiều</h3>
-                    <span class="text-[10px] bg-white/10 px-3 py-1 rounded-full font-bold">12:45 CHECK-IN</span>
-                </div>
-                
-                <div class="overflow-x-auto">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Thời gian</th>
-                                <th>Thứ 2</th>
-                                <th>Thứ 3</th>
-                                <th>Thứ 4</th>
-                                <th>Thứ 5</th>
-                                <th>Thứ 6</th>
-                                <th>Thứ 7</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>13:00 - 13:45</td>
-                                <td>Toán</td>
-                                <td>Văn</td>
-                                <td>Anh</td>
-                                <td>Sử</td>
-                                <td>Địa</td>
-                                <td>GDQP</td>
-                            </tr>
-                            <tr>
-                                <td>13:45 - 14:30</td>
-                                <td>Toán</td>
-                                <td>Văn</td>
-                                <td>Anh</td>
-                                <td>Công nghệ</td>
-                                <td>Lý</td>
-                                <td>Sinh</td>
-                            </tr>
-                            <tr>
-                                <td colspan="7" class="text-center text-[10px] font-bold tracking-widest text-yellow-500 bg-yellow-500/5 py-1">GIẢI LAO 30 PHÚT (14:30 - 15:00)</td>
-                            </tr>
-                            <tr>
-                                <td>15:00 - 15:45</td>
-                                <td>Lý</td>
-                                <td>Hóa</td>
-                                <td>Toán</td>
-                                <td>Văn</td>
-                                <td>Anh</td>
-                                <td>Tin</td>
-                            </tr>
-                            <tr>
-                                <td>15:45 - 16:30</td>
-                                <td>Lý</td>
-                                <td>Hóa</td>
-                                <td>Toán</td>
-                                <td>Văn</td>
-                                <td>Anh</td>
-                                <td>SHL</td>
-                            </tr>
-                            <tr>
-                                <td colspan="7" class="text-center text-[10px] font-bold tracking-widest text-yellow-500 bg-yellow-500/5 py-1">RA CHƠI 10 PHÚT (16:30 - 16:40)</td>
-                            </tr>
-                            <tr>
-                                <td>16:40 - 17:15</td>
-                                <td>Sinh</td>
-                                <td>Địa</td>
-                                <td>Sử</td>
-                                <td>GDCD</td>
-                                <td>Hóa</td>
-                                <td>-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
+    <div class="fixed bottom-10 left-10 pointer-events-none opacity-20">
+        <p class="text-[8px] scifi-font tracking-[1em]">SYSTEM STABLE // NO ERRORS FOUND</p>
+    </div>
 
-    <nav class="fixed bottom-8 left-1/2 -translate-x-1/2 glass px-10 py-5 rounded-full flex gap-12 shadow-2xl z-50">
-        <button class="text-sky-400 transition-transform hover:scale-125"><i class="fa-solid fa-house-user text-2xl"></i></button>
-        <button class="text-slate-500 hover:text-white transition-transform hover:scale-125"><i class="fa-solid fa-gamepad text-2xl"></i></button>
-        <button class="text-slate-500 hover:text-white transition-transform hover:scale-125"><i class="fa-solid fa-book-atlas text-2xl"></i></button>
-        <button class="text-slate-500 hover:text-white transition-transform hover:scale-125"><i class="fa-solid fa-gear text-2xl"></i></button>
-    </nav>
+    <div class="p-6 text-center text-[10px] scifi-font text-slate-500 animate-pulse">
+        <i class="fa-solid fa-angles-left"></i> SWIPE HORIZONTAL TO NAVIGATE <i class="fa-solid fa-angles-right"></i>
+    </div>
 
-    <script>
-        function updateProgress() {
-            const checks = document.querySelectorAll('.quest-check');
-            const checked = Array.from(checks).filter(c => c.checked).length;
-            const percent = (checked / checks.length) * 100;
-            document.getElementById('progress-bar').style.width = percent + '%';
-        }
-    </script>
 </body>
 </html>
