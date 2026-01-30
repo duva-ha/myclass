@@ -3,157 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>10A7 - Ultimate Mobile OS</title>
+    <title>10A7 Modern Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap');
-        
-        :root { --neon-cyan: #00f2ff; --neon-purple: #bc13fe; }
+        /* Sử dụng phông chữ San Francisco/Inter phổ biến tại Bắc Mỹ */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #020617;
-            background-image: fixed;
-            background-image: radial-gradient(circle at 0% 0%, #1e293b 0%, #020617 100%);
-            color: #f8fafc;
-            overflow-y: auto;
-            padding-bottom: 50px;
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f7; /* Màu xám đặc trưng Apple */
+            color: #1d1d1f;
+            padding-bottom: 40px;
         }
 
-        .scifi-font { font-family: 'Orbitron', sans-serif; }
-
-        /* Card Setup - Sát cao và Đứng */
-        .glass-card {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-            border-radius: 30px;
-            margin: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        /* Thẻ theo phong cách Card-UI hiện đại */
+        .apple-card {
+            background: #ffffff;
+            border-radius: 20px;
+            margin: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease;
         }
 
-        .card-header {
-            border-left: 4px solid var(--neon-cyan);
-            padding-left: 12px;
-            margin-bottom: 20px;
-            font-family: 'Orbitron', sans-serif;
+        .section-title {
             font-size: 0.75rem;
-            letter-spacing: 2px;
-            color: var(--neon-cyan);
+            font-weight: 700;
+            color: #86868b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            padding-left: 20px;
         }
 
-        /* Checkbox & Name Input */
-        .duty-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .duty-item { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 15px; text-align: center; }
-        .input-mini { 
-            background: rgba(0,242,255,0.1); border: none; border-radius: 5px; 
-            color: white; font-size: 0.7rem; width: 100%; text-align: center; margin-bottom: 5px;
+        .hero-text {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1;
         }
 
-        /* Tài chính */
-        .finance-badge { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: #4ade80; }
-        
-        .nav-indicator {
-            position: fixed; right: 10px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 15px; z-index: 100;
+        /* Checkbox & Input tinh tế */
+        .check-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
         }
-        .dot { width: 6px; height: 6px; background: rgba(0,242,255,0.3); border-radius: 50%; }
+
+        .custom-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            accent-color: #0071e3; /* Màu xanh Blue Apple */
+        }
+
+        .name-input {
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            width: 100%;
+            text-align: center;
+            background: #fbfbfd;
+        }
+
+        /* Nút bấm kiểu Flat Modern */
+        .btn-primary {
+            background-color: #0071e3;
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        .sidebar-indicator {
+            position: fixed;
+            left: 0;
+            top: 25%;
+            width: 4px;
+            height: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        .nav-line { width: 100%; height: 20%; background: #d2d2d7; border-radius: 0 4px 4px 0; }
+        .nav-line.active { background: #0071e3; }
     </style>
 </head>
 <body>
 
-    <div class="sticky top-0 z-50 bg-[#020617]/80 backdrop-blur-md p-6 flex justify-between items-center border-b border-white/5">
-        <div>
-            <h1 class="scifi-font font-black text-2xl tracking-tighter text-white">10A7 // HUB</h1>
-            <p id="live-time" class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">00:00:00</p>
+    <header class="p-8 pt-12">
+        <div class="flex justify-between items-baseline">
+            <h1 class="hero-text">10A7<span class="text-blue-600">.</span></h1>
+            <div class="text-right">
+                <p id="live-time" class="text-sm font-bold text-gray-400">00:00:00</p>
+            </div>
         </div>
-        <i class="fa-solid fa-satellite-dish animate-pulse text-cyan-400"></i>
+    </header>
+
+    <div class="sidebar-indicator">
+        <div class="nav-line active"></div>
+        <div class="nav-line"></div>
+        <div class="nav-line"></div>
+        <div class="nav-line"></div>
+        <div class="nav-line"></div>
     </div>
 
-    <section class="glass-card">
-        <div class="card-header">00 // THÔNG BÁO CHUNG</div>
-        <div class="space-y-4">
-            <div class="p-4 bg-cyan-500/10 border border-cyan-500/20 rounded-2xl">
-                <p class="text-sm font-bold leading-relaxed italic">"Tuần sau bắt đầu ôn tập cho kỳ thi giữa kỳ. Các tổ trưởng kiểm tra vở ghi bài của thành viên."</p>
+    <p class="section-title">Thông báo</p>
+    <section class="apple-card">
+        <div class="flex items-start gap-4">
+            <div class="bg-blue-100 p-3 rounded-full">
+                <i class="fa-solid fa-bell text-blue-600"></i>
             </div>
-            <button class="w-full py-3 border border-dashed border-cyan-500/30 rounded-xl text-[10px] font-black uppercase">+ Thêm thông báo mới</button>
-        </div>
-    </section>
-
-    <section class="glass-card">
-        <div class="card-header">01 // NHÂN SỰ ĐƠN VỊ</div>
-        <div class="grid grid-cols-2 gap-3">
-            <div class="p-4 bg-white/5 rounded-2xl">
-                <p class="text-[9px] text-slate-500 uppercase font-bold mb-2">Ban cán sự</p>
-                <p class="text-xs font-bold">L.Trưởng: Nam</p>
-                <p class="text-xs font-bold mt-1">LP Học tập: Lan</p>
-            </div>
-            <div class="p-4 bg-purple-500/10 rounded-2xl text-center flex flex-col justify-center">
-                <p class="text-[9px] text-purple-400 uppercase font-bold">Sĩ số</p>
-                <p class="text-4xl font-black">47</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="glass-card">
-        <div class="card-header">02 // TRỰC NHẬT TUẦN 20</div>
-        <div class="flex justify-between items-end mb-4">
-            <p class="text-3xl font-black uppercase leading-none">Tổ 05</p>
-            <button class="px-4 py-2 bg-cyan-500 text-black rounded-full font-bold text-[10px] uppercase">Phân công</button>
-        </div>
-        
-        <div class="space-y-6">
             <div>
-                <p class="text-[10px] font-black text-slate-400 mb-3 uppercase tracking-widest">Lau bảng & Vệ sinh</p>
-                <div class="duty-grid">
-                    <div class="duty-item"><span class="text-[8px] text-cyan-500">T2</span><input class="input-mini" value="Nam"><input type="checkbox" class="accent-cyan-400"></div>
-                    <div class="duty-item"><span class="text-[8px] text-cyan-500">T3</span><input class="input-mini" value="An"><input type="checkbox" class="accent-cyan-400"></div>
-                    <div class="duty-item"><span class="text-[8px] text-cyan-500">T4</span><input class="input-mini" value="Bình"><input type="checkbox" class="accent-cyan-400"></div>
+                <p class="text-lg font-bold">Chào buổi chiều!</p>
+                <p class="text-gray-500 text-sm mt-1">Lớp chúng ta có tiết thực hành tại phòng Lab vào Thứ 5. Đừng quên mang đầy đủ dụng cụ.</p>
+            </div>
+        </div>
+        <button class="mt-6 w-full text-blue-600 font-bold text-sm">+ Thêm tin nhắn mới</button>
+    </section>
+
+    <p class="section-title">Nhân sự lớp</p>
+    <section class="apple-card">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-xs text-gray-400 font-bold mb-2">BAN CÁN SỰ</p>
+                <div class="space-y-1">
+                    <p class="font-bold">L.Trưởng: <span class="text-blue-600 font-black uppercase">Nam</span></p>
+                    <p class="font-bold">L.Phó: <span class="text-blue-600 font-black uppercase">Lan</span></p>
+                    <p class="text-xs text-gray-400 mt-2 italic">+ 6 Tổ trưởng</p>
                 </div>
             </div>
-            <p class="text-[9px] text-center text-slate-600 italic">Vuốt xuống để xem thêm các hạng mục...</p>
-        </div>
-    </section>
-
-    <section class="glass-card">
-        <div class="card-header">03 // TÀI CHÍNH LỚP</div>
-        <div class="text-center mb-6">
-            <p class="text-[10px] text-slate-500 uppercase font-bold">Số dư khả dụng</p>
-            <p class="text-4xl font-black text-green-400">2.450.000đ</p>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-            <div class="p-3 bg-white/5 rounded-xl border-l-2 border-green-500">
-                <p class="text-[9px] text-green-500 font-bold uppercase">Khoản thu</p>
-                <p class="text-xs font-bold">+1.500k (Quỹ)</p>
-            </div>
-            <div class="p-3 bg-white/5 rounded-xl border-l-2 border-red-500">
-                <p class="text-[9px] text-red-500 font-bold uppercase">Khoản chi</p>
-                <p class="text-xs font-bold">-45k (Phấn)</p>
+            <div class="text-center">
+                <p class="text-6xl font-black">47</p>
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Học sinh</p>
             </div>
         </div>
     </section>
 
-    <section class="glass-card border-yellow-500/30">
-        <div class="card-header" style="border-color: #eab308; color: #eab308;">04 // BÁO CÁO TỔNG KẾT</div>
-        <div class="bg-yellow-500/5 p-5 rounded-3xl flex flex-col items-center">
-            <i class="fa-solid fa-medal text-4xl text-yellow-500 mb-2"></i>
-            <p class="text-xs font-bold text-slate-400 uppercase">Đơn vị xuất sắc tuần</p>
-            <p class="text-3xl font-black text-white uppercase tracking-tighter">Tổ 02</p>
-            <div class="mt-4 w-full bg-white/5 p-3 rounded-xl text-center">
-                <p class="text-[10px] text-slate-400 italic">"Hoàn thành 100% chỉ tiêu trực nhật và chuyên cần."</p>
+    <p class="section-title">Trực nhật</p>
+    <section class="apple-card">
+        <div class="flex justify-between items-end mb-6">
+            <div>
+                <h2 class="text-3xl font-black">Tổ 05</h2>
+                <p class="text-xs text-blue-600 font-bold uppercase tracking-wider">Tuần 20: 27/01 - 01/02</p>
+            </div>
+            <button class="btn-primary">PHÂN CÔNG</button>
+        </div>
+
+        <div class="space-y-8">
+            <div>
+                <p class="text-sm font-bold mb-3 border-b pb-1">1. Lau bảng & Vệ sinh</p>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="check-item"><span class="text-[10px] font-bold text-gray-400">T2</span><input class="name-input" value="Nam"><input type="checkbox" class="custom-check"></div>
+                    <div class="check-item"><span class="text-[10px] font-bold text-gray-400">T3</span><input class="name-input" value="An"><input type="checkbox" class="custom-check"></div>
+                    <div class="check-item"><span class="text-[10px] font-bold text-gray-400">T4</span><input class="name-input" value="Bình"><input type="checkbox" class="custom-check"></div>
+                </div>
+            </div>
+            </div>
+    </section>
+
+    <p class="section-title">Tài chính</p>
+    <section class="apple-card">
+        <p class="text-center text-xs font-bold text-gray-400 uppercase mb-2">Số dư quỹ lớp</p>
+        <p class="text-4xl font-black text-center mb-6 text-green-600">2,450,000đ</p>
+        <div class="flex gap-4">
+            <div class="flex-1 p-4 bg-green-50 rounded-2xl">
+                <p class="text-[10px] font-bold text-green-600 uppercase">Khoản thu</p>
+                <p class="text-sm font-bold">+1.5M</p>
+            </div>
+            <div class="flex-1 p-4 bg-red-50 rounded-2xl">
+                <p class="text-[10px] font-bold text-red-600 uppercase">Khoản chi</p>
+                <p class="text-sm font-bold">-45K</p>
             </div>
         </div>
     </section>
 
-    <div class="nav-indicator">
-        <div class="dot" style="background: var(--neon-cyan);"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-    </div>
+    <p class="section-title">Tổng kết</p>
+    <section class="apple-card bg-black text-white">
+        <div class="flex flex-col items-center py-4">
+            <i class="fa-solid fa-award text-4xl text-yellow-500 mb-4"></i>
+            <p class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-widest text-center">Tổ xuất sắc tuần này</p>
+            <p class="text-4xl font-black">TỔ 02</p>
+            <div class="mt-6 px-6 py-2 bg-white/10 rounded-full text-xs font-medium">
+                Khen thưởng: +10 điểm thi đua
+            </div>
+        </div>
+    </section>
 
     <script>
         setInterval(() => {
