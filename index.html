@@ -24,7 +24,7 @@
         .carousel-viewport::-webkit-scrollbar { display: none; }
 
         .scifi-card {
-            min-width: 92vw; height: 74vh; scroll-snap-align: center;
+            min-width: 92vw; height: 75vh; scroll-snap-align: center;
             background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(25px);
             border: 2px solid rgba(0, 242, 255, 0.4); border-radius: 40px;
             padding: 25px; position: relative; transition: all 0.4s ease;
@@ -33,15 +33,15 @@
         .scifi-card.active { opacity: 1; transform: scale(1); border-color: var(--neon-cyan); box-shadow: 0 0 40px rgba(0, 242, 255, 0.2); }
 
         .scifi-table { width: 100%; font-size: 1.1rem; text-align: left; }
-        .scifi-table th { color: var(--neon-cyan); padding: 12px 5px; border-bottom: 2px solid rgba(0,242,255,0.3); font-size: 0.8rem; }
-        .scifi-table td { padding: 14px 5px; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: 700; }
+        .scifi-table th { color: var(--neon-cyan); padding: 10px 5px; border-bottom: 2px solid rgba(0,242,255,0.3); font-size: 0.8rem; }
+        .scifi-table td { padding: 12px 5px; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: 700; }
         
         .duty-row { 
-            background: rgba(255,255,255,0.05); padding: 18px; border-radius: 25px; 
-            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px;
+            background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px;
         }
-        .quest-check { width: 32px; height: 32px; accent-color: var(--neon-cyan); cursor: pointer; }
-        .name-tag { font-size: 12px; color: var(--neon-cyan); font-weight: 800; text-transform: uppercase; background: rgba(0,242,255,0.1); padding: 2px 8px; border-radius: 5px; }
+        .quest-check { width: 30px; height: 30px; accent-color: var(--neon-cyan); cursor: pointer; }
+        .name-tag { font-size: 11px; color: var(--neon-cyan); font-weight: 800; text-transform: uppercase; background: rgba(0,242,255,0.1); padding: 2px 8px; border-radius: 5px; }
 
         .nav-dot {
             width: 48px; height: 48px; border-radius: 50%; border: 2px solid rgba(0,242,255,0.4);
@@ -63,61 +63,65 @@
     <div class="carousel-viewport" id="viewport">
         
         <section class="scifi-card active" id="card-0">
-            <div class="flex justify-between items-center mb-4 border-b border-cyan-500/30 pb-2">
-                <h3 class="scifi-font text-cyan-400 text-sm">01 // TRỰC NHẬT</h3>
-                <div class="text-[10px] bg-cyan-500/20 px-3 py-1 rounded-full text-cyan-300 font-bold">VUỐT ↑↓ ĐỔI TUẦN</div>
+            <div class="flex justify-between items-center mb-2 border-b border-cyan-500/30 pb-2">
+                <h3 class="scifi-font text-cyan-400 text-[10px] uppercase tracking-widest">01 // TRỰC NHẬT</h3>
+                <div class="text-[9px] bg-cyan-500/20 px-3 py-1 rounded-full text-cyan-300 font-bold uppercase">Vuốt ↑↓ Tuần</div>
             </div>
             
             <div id="duty-zone">
-                <div class="mb-4">
-                    <p id="week-display" class="text-base text-cyan-400 font-bold uppercase tracking-widest">Tuần 20</p>
-                    <p id="group-display" class="text-5xl font-black text-white leading-none uppercase">Tổ 05</p>
+                <div class="mb-3 flex justify-between items-end">
+                    <div>
+                        <p id="week-display" class="text-xs text-cyan-400 font-bold uppercase tracking-widest">Tuần 20</p>
+                        <p id="group-display" class="text-4xl font-black text-white leading-none uppercase">Tổ 05</p>
+                    </div>
                 </div>
 
-                <div class="duty-list overflow-y-auto h-[48vh] pr-1">
+                <div class="duty-list overflow-y-auto h-[50vh] pr-1">
                     <div class="duty-row">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-base font-black text-white uppercase">Lau bảng</span>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-black text-white uppercase">1. Lau bảng (Mỗi tiết)</span>
                             <span class="name-tag">Phụ trách: Nam</span>
                         </div>
                         <div class="flex justify-between">
-                            <div class="flex flex-col items-center"><span class="text-[10px] mb-2 font-bold">T2</span><input type="checkbox" class="quest-check"></div>
-                            <div class="flex flex-col items-center"><span class="text-[10px] mb-2 font-bold text-cyan-400">T3</span><input type="checkbox" class="quest-check"></div>
-                            <div class="flex flex-col items-center"><span class="text-[10px] mb-2 font-bold text-cyan-400">T4</span><input type="checkbox" class="quest-check"></div>
-                            <div class="flex flex-col items-center"><span class="text-[10px] mb-2 font-bold text-cyan-400">T5</span><input type="checkbox" class="quest-check"></div>
-                            <div class="flex flex-col items-center"><span class="text-[10px] mb-2 font-bold text-cyan-400">T6</span><input type="checkbox" class="quest-check"></div>
-                            <div class="flex flex-col items-center"><span class="text-[10px] mb-2 font-bold">T7</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T2</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T3</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T4</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T5</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T6</span><input type="checkbox" class="quest-check"></div>
+                            <div class="flex flex-col items-center"><span class="text-[9px] mb-1">T7</span><input type="checkbox" class="quest-check"></div>
                         </div>
                     </div>
 
                     <div class="duty-row">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-base font-black text-white uppercase">Vệ sinh đầu giờ</span>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-black text-white uppercase">2. Vệ sinh đầu giờ</span>
                             <span class="name-tag">Phụ trách: An</span>
                         </div>
-                        <div class="flex justify-between px-1">
-                            <input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check">
-                        </div>
+                        <div class="flex justify-between"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"></div>
                     </div>
 
                     <div class="duty-row">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-base font-black text-white uppercase">Vệ sinh cuối giờ</span>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-black text-white uppercase">3. Vệ sinh cuối giờ</span>
                             <span class="name-tag">Phụ trách: Bình</span>
                         </div>
-                        <div class="flex justify-between px-1">
-                            <input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check">
-                        </div>
+                        <div class="flex justify-between"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"></div>
                     </div>
 
                     <div class="duty-row">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-base font-black text-white uppercase">Đổ rác & TB</span>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-black text-white uppercase">4. Đổ rác & Thiết bị</span>
                             <span class="name-tag">Phụ trách: Chi</span>
                         </div>
-                        <div class="flex justify-between px-1">
-                            <input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check">
+                        <div class="flex justify-between"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"></div>
+                    </div>
+
+                    <div class="duty-row">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-black text-yellow-400 uppercase italic">5. Tổng kết - Khen thưởng</span>
+                            <span class="name-tag">Phụ trách: Tổ Trưởng</span>
                         </div>
+                        <div class="flex justify-between"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"><input type="checkbox" class="quest-check"></div>
                     </div>
                 </div>
             </div>
@@ -125,7 +129,7 @@
 
         <section class="scifi-card" id="card-1">
             <div class="flex justify-between items-center mb-6 border-b border-cyan-500/30 pb-4">
-                <h3 class="scifi-font text-cyan-400 text-sm uppercase">02 // THỜI KHÓA BIỂU</h3>
+                <h3 class="scifi-font text-cyan-400 text-xs uppercase">02 // THỜI KHÓA BIỂU</h3>
                 <label class="bg-cyan-500/20 border border-cyan-500/50 px-3 py-2 rounded-xl flex items-center gap-2 cursor-pointer active:scale-95 transition-all">
                     <i class="fa-solid fa-file-excel text-green-400"></i>
                     <span class="text-[10px] font-black uppercase">Nạp Excel</span>
@@ -134,7 +138,7 @@
             </div>
             <div class="overflow-x-auto h-[55vh]">
                 <table class="scifi-table">
-                    <thead><tr><th>GIỜ</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th></tr></thead>
+                    <thead><tr><th>TIẾT</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th></tr></thead>
                     <tbody id="tkb-body" class="text-white">
                         </tbody>
                 </table>
@@ -142,7 +146,7 @@
         </section>
 
         <section class="scifi-card" id="card-2">
-            <h3 class="scifi-font text-cyan-400 text-sm mb-6 border-b border-cyan-500/30 pb-2 uppercase">03 // NHÂN SỰ LỚP</h3>
+            <h3 class="scifi-font text-cyan-400 text-xs mb-6 border-b border-cyan-500/30 pb-2 uppercase">03 // NHÂN SỰ LỚP</h3>
             <div class="space-y-6">
                 <div class="p-6 bg-white/5 rounded-3xl border border-white/10">
                     <p class="text-sm text-cyan-400 font-bold uppercase mb-4 tracking-widest">Ban cán sự</p>
@@ -159,7 +163,7 @@
         </section>
 
         <section class="scifi-card" id="card-3">
-            <h3 class="scifi-font text-cyan-400 text-sm mb-10 border-b border-cyan-500/30 pb-2 uppercase">04 // KINH TẾ LỚP</h3>
+            <h3 class="scifi-font text-cyan-400 text-xs mb-10 border-b border-cyan-500/30 pb-2 uppercase">04 // KINH TẾ LỚP</h3>
             <div class="flex flex-col items-center justify-center h-full pb-16">
                 <div class="w-56 h-56 rounded-full border-8 border-cyan-500/20 flex flex-col items-center justify-center bg-cyan-500/5 shadow-[0_0_60px_rgba(0,242,255,0.2)]">
                     <p class="text-sm text-slate-400 font-bold uppercase mb-2">Số dư quỹ</p>
@@ -181,7 +185,7 @@
         const cards = document.querySelectorAll('.scifi-card');
         const dots = document.querySelectorAll('.nav-dot');
 
-        // --- LOGIC TRỰC NHẬT: VUỐT ĐỔI TUẦN ---
+        // --- TRỰC NHẬT: VUỐT ĐỔI TUẦN ---
         let currentWeek = 20;
         let startY = 0;
         const dutyCard = document.getElementById('card-0');
@@ -194,15 +198,23 @@
             document.getElementById('group-display').innerText = `Tổ 0${(Math.abs(currentWeek) % 6) || 6}`;
         });
 
-        // --- LOGIC EXCEL TKB ---
+        // --- THỜI KHÓA BIỂU: 5 TIẾT ---
         const tkbBody = document.getElementById('tkb-body');
         
-        function saveTKB(data) { localStorage.setItem('tkb_data', JSON.stringify(data)); }
+        function saveTKB(data) { localStorage.setItem('tkb_data_10A7', JSON.stringify(data)); }
         function loadTKB() {
-            const stored = localStorage.getItem('tkb_data');
+            const stored = localStorage.getItem('tkb_data_10A7');
             if (stored) renderTKB(JSON.parse(stored));
-            else { // Mẫu mặc định
-                renderTKB([["13:00","Học","Học","Học","Học","Học","Học"],["13:45","Toán","Toán","Toán","Toán","Toán","Toán"]]);
+            else {
+                // Mẫu 5 tiết mặc định
+                const defaultTKB = [
+                    ["T1","Chào cờ","Toán","Anh","Văn","Lý","Sử"],
+                    ["T2","Toán","Văn","Anh","Toán","Hóa","Địa"],
+                    ["T3","Văn","Lý","Toán","Anh","Sinh","GDCD"],
+                    ["T4","Anh","Toán","Sử","Văn","Công nghệ","Hóa"],
+                    ["T5","Sinh","GDCD","Địa","Lý","Tin học","Sinh hoạt"]
+                ];
+                renderTKB(defaultTKB);
             }
         }
 
@@ -212,9 +224,10 @@
                 const tr = document.createElement('tr');
                 row.forEach(cell => { const td = document.createElement('td'); td.innerText = cell; tr.appendChild(td); });
                 tkbBody.appendChild(tr);
-                if (i === 1) { // Chèn hàng giải lao sau tiết 2
+                // Chèn hàng giải lao sau tiết 2
+                if (i === 1) {
                     const br = document.createElement('tr');
-                    br.innerHTML = `<td colspan="7" class="text-center text-yellow-500 py-4 bg-yellow-500/10 font-bold text-base uppercase">GIẢI LAO 30 PHÚT</td>`;
+                    br.innerHTML = `<td colspan="7" class="text-center text-yellow-500 py-3 bg-yellow-500/10 font-bold text-xs uppercase tracking-widest">Giờ nghỉ giải lao</td>`;
                     tkbBody.appendChild(br);
                 }
             });
@@ -225,7 +238,7 @@
             reader.onload = event => {
                 const wb = XLSX.read(new Uint8Array(event.target.result), {type:'array'});
                 const data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {header:1});
-                const filtered = data.filter(r => r.length > 0).slice(1); // Bỏ tiêu đề
+                const filtered = data.filter(r => r.length > 0).slice(1);
                 renderTKB(filtered); saveTKB(filtered);
             };
             reader.readAsArrayBuffer(e.target.files[0]);
