@@ -3,180 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>10A7 - Mobile Starship OS</title>
+    <title>10A7 - Ultimate Mobile OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
-        :root { --neon-cyan: #00f2ff; --neon-yellow: #facc15; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap');
+        
+        :root { --neon-cyan: #00f2ff; --neon-purple: #bc13fe; }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #020617; color: #f8fafc; height: 100vh; overflow: hidden;
+            background: #020617;
+            background-image: fixed;
+            background-image: radial-gradient(circle at 0% 0%, #1e293b 0%, #020617 100%);
+            color: #f8fafc;
+            overflow-y: auto;
+            padding-bottom: 50px;
         }
+
         .scifi-font { font-family: 'Orbitron', sans-serif; }
+
+        /* Card Setup - Sát cao và Đứng */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            border-radius: 30px;
+            margin: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-header {
+            border-left: 4px solid var(--neon-cyan);
+            padding-left: 12px;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--neon-cyan);
+        }
+
+        /* Checkbox & Name Input */
+        .duty-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .duty-item { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 15px; text-align: center; }
+        .input-mini { 
+            background: rgba(0,242,255,0.1); border: none; border-radius: 5px; 
+            color: white; font-size: 0.7rem; width: 100%; text-align: center; margin-bottom: 5px;
+        }
+
+        /* Tài chính */
+        .finance-badge { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: #4ade80; }
         
-        /* Cấu trúc trượt ngang chính */
-        .carousel-viewport {
-            display: flex; overflow-x: scroll; height: 85vh; align-items: center;
-            padding: 0 5vw; scroll-snap-type: x mandatory; gap: 20px;
-            -webkit-overflow-scrolling: touch;
+        .nav-indicator {
+            position: fixed; right: 10px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 15px; z-index: 100;
         }
-        .carousel-viewport::-webkit-scrollbar { display: none; }
-
-        .scifi-card {
-            min-width: 90vw; height: 75vh; scroll-snap-align: center;
-            background: rgba(15, 23, 42, 0.98); border: 2px solid rgba(0, 242, 255, 0.3);
-            border-radius: 40px; padding: 20px; position: relative;
-            transition: all 0.4s ease; opacity: 0.1; transform: scale(0.9);
-        }
-        .scifi-card.active { opacity: 1; transform: scale(1); border-color: var(--neon-cyan); }
-
-        /* Tối ưu TKB theo chiều dọc cho Mobile */
-        .tkb-day-container { display: flex; overflow-x: auto; gap: 10px; scroll-snap-type: x mandatory; padding-bottom: 10px; }
-        .tkb-day-card { 
-            min-width: 70vw; background: rgba(255,255,255,0.05); border-radius: 25px; 
-            padding: 15px; scroll-snap-align: center; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .tkb-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 1.1rem; }
-        .break-tag { background: rgba(250, 204, 21, 0.1); color: var(--neon-yellow); font-size: 0.8rem; text-align: center; padding: 8px; border-radius: 12px; margin: 5px 0; font-weight: 800; }
-
-        /* Tối ưu Trực nhật */
-        .duty-box { background: rgba(0, 242, 255, 0.03); border-radius: 25px; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(0, 242, 255, 0.1); }
-        .input-name { background: rgba(0, 242, 255, 0.1); color: white; border: none; border-radius: 8px; padding: 4px; width: 100%; text-align: center; font-size: 1rem; font-weight: 800; }
-        .day-label { font-size: 0.7rem; color: #64748b; font-weight: 800; text-transform: uppercase; }
-
-        .nav-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(0,242,255,0.2); transition: 0.3s; }
-        .nav-dot.active { background: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); transform: scale(1.3); }
+        .dot { width: 6px; height: 6px; background: rgba(0,242,255,0.3); border-radius: 50%; }
     </style>
 </head>
-<body class="flex flex-col">
+<body>
 
-    <header class="p-5 flex justify-between items-center z-50">
-        <h1 class="scifi-font font-black text-2xl italic text-white" style="text-shadow: 0 0 10px #00f2ff;">10A7 HUB</h1>
-        <p id="live-time" class="scifi-font text-lg font-bold text-white">00:00:00</p>
-    </header>
-
-    <div class="carousel-viewport" id="viewport">
-        
-        <section class="scifi-card active" id="card-0">
-            <div class="flex justify-between items-center mb-6 border-b border-cyan-500/30 pb-4">
-                <h3 class="scifi-font text-cyan-400 text-xs uppercase">00 // THÔNG BÁO</h3>
-                <button onclick="addNotice()" class="bg-cyan-500/20 px-4 py-2 rounded-full text-xs font-black uppercase text-white">+ THÊM</button>
-            </div>
-            <div class="space-y-4 overflow-y-auto h-[58vh]" id="notice-list">
-                <div class="p-5 bg-cyan-500/10 border-l-4 border-cyan-500 rounded-r-3xl">
-                    <p class="text-lg font-bold text-white">Chào buổi chiều lớp 10A7!</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="scifi-card" id="card-1">
-            <div class="flex justify-between items-center mb-4 border-b border-cyan-500/30 pb-2">
-                <h3 class="scifi-font text-cyan-400 text-xs uppercase">01 // TRỰC NHẬT</h3>
-                <button onclick="toggleDutyEdit()" id="btn-assign" class="bg-purple-500/30 px-4 py-2 rounded-full text-[10px] font-black uppercase text-white">PHÂN CÔNG</button>
-            </div>
-            
-            <div class="mb-4">
-                <p id="week-display" class="text-xl font-black text-white leading-none">TUẦN 20</p>
-                <p class="text-xs text-cyan-500 font-bold">TỔ 05 PHỤ TRÁCH</p>
-            </div>
-
-            <div class="overflow-y-auto h-[50vh] pr-1 space-y-4" id="duty-list">
-                </div>
-        </section>
-
-        <section class="scifi-card" id="card-2">
-            <h3 class="scifi-font text-cyan-400 text-xs mb-4 border-b border-cyan-500/30 pb-2 uppercase">02 // THỜI KHÓA BIỂU</h3>
-            <p class="text-[10px] text-slate-500 mb-4 uppercase font-bold text-center"><i class="fa-solid fa-hand-pointer mr-2"></i>Vuốt ngang để xem các ngày</p>
-            
-            <div class="tkb-day-container" id="tkb-container">
-                </div>
-        </section>
-
+    <div class="sticky top-0 z-50 bg-[#020617]/80 backdrop-blur-md p-6 flex justify-between items-center border-b border-white/5">
+        <div>
+            <h1 class="scifi-font font-black text-2xl tracking-tighter text-white">10A7 // HUB</h1>
+            <p id="live-time" class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">00:00:00</p>
+        </div>
+        <i class="fa-solid fa-satellite-dish animate-pulse text-cyan-400"></i>
     </div>
 
-    <footer class="p-6 flex justify-center gap-4">
-        <div class="nav-dot active"></div>
-        <div class="nav-dot"></div>
-        <div class="nav-dot"></div>
-    </footer>
+    <section class="glass-card">
+        <div class="card-header">00 // THÔNG BÁO CHUNG</div>
+        <div class="space-y-4">
+            <div class="p-4 bg-cyan-500/10 border border-cyan-500/20 rounded-2xl">
+                <p class="text-sm font-bold leading-relaxed italic">"Tuần sau bắt đầu ôn tập cho kỳ thi giữa kỳ. Các tổ trưởng kiểm tra vở ghi bài của thành viên."</p>
+            </div>
+            <button class="w-full py-3 border border-dashed border-cyan-500/30 rounded-xl text-[10px] font-black uppercase">+ Thêm thông báo mới</button>
+        </div>
+    </section>
+
+    <section class="glass-card">
+        <div class="card-header">01 // NHÂN SỰ ĐƠN VỊ</div>
+        <div class="grid grid-cols-2 gap-3">
+            <div class="p-4 bg-white/5 rounded-2xl">
+                <p class="text-[9px] text-slate-500 uppercase font-bold mb-2">Ban cán sự</p>
+                <p class="text-xs font-bold">L.Trưởng: Nam</p>
+                <p class="text-xs font-bold mt-1">LP Học tập: Lan</p>
+            </div>
+            <div class="p-4 bg-purple-500/10 rounded-2xl text-center flex flex-col justify-center">
+                <p class="text-[9px] text-purple-400 uppercase font-bold">Sĩ số</p>
+                <p class="text-4xl font-black">47</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="glass-card">
+        <div class="card-header">02 // TRỰC NHẬT TUẦN 20</div>
+        <div class="flex justify-between items-end mb-4">
+            <p class="text-3xl font-black uppercase leading-none">Tổ 05</p>
+            <button class="px-4 py-2 bg-cyan-500 text-black rounded-full font-bold text-[10px] uppercase">Phân công</button>
+        </div>
+        
+        <div class="space-y-6">
+            <div>
+                <p class="text-[10px] font-black text-slate-400 mb-3 uppercase tracking-widest">Lau bảng & Vệ sinh</p>
+                <div class="duty-grid">
+                    <div class="duty-item"><span class="text-[8px] text-cyan-500">T2</span><input class="input-mini" value="Nam"><input type="checkbox" class="accent-cyan-400"></div>
+                    <div class="duty-item"><span class="text-[8px] text-cyan-500">T3</span><input class="input-mini" value="An"><input type="checkbox" class="accent-cyan-400"></div>
+                    <div class="duty-item"><span class="text-[8px] text-cyan-500">T4</span><input class="input-mini" value="Bình"><input type="checkbox" class="accent-cyan-400"></div>
+                </div>
+            </div>
+            <p class="text-[9px] text-center text-slate-600 italic">Vuốt xuống để xem thêm các hạng mục...</p>
+        </div>
+    </section>
+
+    <section class="glass-card">
+        <div class="card-header">03 // TÀI CHÍNH LỚP</div>
+        <div class="text-center mb-6">
+            <p class="text-[10px] text-slate-500 uppercase font-bold">Số dư khả dụng</p>
+            <p class="text-4xl font-black text-green-400">2.450.000đ</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+            <div class="p-3 bg-white/5 rounded-xl border-l-2 border-green-500">
+                <p class="text-[9px] text-green-500 font-bold uppercase">Khoản thu</p>
+                <p class="text-xs font-bold">+1.500k (Quỹ)</p>
+            </div>
+            <div class="p-3 bg-white/5 rounded-xl border-l-2 border-red-500">
+                <p class="text-[9px] text-red-500 font-bold uppercase">Khoản chi</p>
+                <p class="text-xs font-bold">-45k (Phấn)</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="glass-card border-yellow-500/30">
+        <div class="card-header" style="border-color: #eab308; color: #eab308;">04 // BÁO CÁO TỔNG KẾT</div>
+        <div class="bg-yellow-500/5 p-5 rounded-3xl flex flex-col items-center">
+            <i class="fa-solid fa-medal text-4xl text-yellow-500 mb-2"></i>
+            <p class="text-xs font-bold text-slate-400 uppercase">Đơn vị xuất sắc tuần</p>
+            <p class="text-3xl font-black text-white uppercase tracking-tighter">Tổ 02</p>
+            <div class="mt-4 w-full bg-white/5 p-3 rounded-xl text-center">
+                <p class="text-[10px] text-slate-400 italic">"Hoàn thành 100% chỉ tiêu trực nhật và chuyên cần."</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="nav-indicator">
+        <div class="dot" style="background: var(--neon-cyan);"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
 
     <script>
-        const viewport = document.getElementById('viewport');
-        const cards = document.querySelectorAll('.scifi-card');
-        const dots = document.querySelectorAll('.nav-dot');
-
-        // --- M1: TRỰC NHẬT ---
-        const dutyTasks = ["Lau bảng", "Vệ sinh đầu giờ", "Vệ sinh cuối giờ", "Đổ rác"];
-        let isEditing = false;
-
-        function renderDuty() {
-            const list = document.getElementById('duty-list');
-            list.innerHTML = dutyTasks.map((task, idx) => `
-                <div class="duty-box">
-                    <p class="text-sm font-black text-cyan-400 uppercase mb-3">${idx+1}. ${task}</p>
-                    <div class="grid grid-cols-3 gap-3">
-                        ${['T2','T3','T4','T5','T6','T7'].map(day => `
-                            <div>
-                                <span class="day-label">${day}</span>
-                                <input type="text" placeholder="..." class="input-name ${isEditing?'':'hidden'}" value="">
-                                <p class="text-sm font-bold text-white ${isEditing?'hidden':''}">Trống</p>
-                                <input type="checkbox" class="w-6 h-6 accent-cyan-400 mt-1">
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function toggleDutyEdit() {
-            isEditing = !isEditing;
-            renderDuty();
-        }
-
-        // --- M2: TKB (CHẾ ĐỘ XEM NGÀY CHO MOBILE) ---
-        const tkbData = {
-            "Thứ 2": ["Toán", "Toán", "Văn", "Văn", "Anh"],
-            "Thứ 3": ["Lý", "Lý", "Hóa", "Hóa", "Sinh"],
-            "Thứ 4": ["Anh", "Anh", "Công nghệ", "Công nghệ", "Sử"],
-            "Thứ 5": ["Văn", "Văn", "Địa", "Địa", "GDCD"],
-            "Thứ 6": ["Toán", "Sử", "Tin", "Tin", "Sinh hoạt"],
-            "Thứ 7": ["Hoạt động", "Trải nghiệm", "Kỹ năng", "Kỹ năng", "Tự học"]
-        };
-
-        function renderTKB() {
-            const container = document.getElementById('tkb-container');
-            container.innerHTML = Object.entries(tkbData).map(([day, subjects]) => `
-                <div class="tkb-day-card">
-                    <p class="scifi-font text-cyan-400 text-center border-b border-cyan-500/20 pb-2 mb-2">${day}</p>
-                    <div class="tkb-item"><span>Tiết 1</span><b>${subjects[0]}</b></div>
-                    <div class="tkb-item"><span>Tiết 2</span><b>${subjects[1]}</b></div>
-                    <div class="break-tag">GIẢI LAO 30 PHÚT</div>
-                    <div class="tkb-item"><span>Tiết 3</span><b>${subjects[2]}</b></div>
-                    <div class="tkb-item"><span>Tiết 4</span><b>${subjects[3]}</b></div>
-                    <div class="break-tag" style="background:rgba(0,242,255,0.05); color:var(--neon-cyan)">GIẢI LAO 10 PHÚT</div>
-                    <div class="tkb-item"><span>Tiết 5</span><b>${subjects[4]}</b></div>
-                </div>
-            `).join('');
-        }
-
-        // Carousel & Clock Logic
-        viewport.addEventListener('scroll', () => {
-            const centerX = viewport.offsetWidth / 2;
-            cards.forEach((card, i) => {
-                const rect = card.getBoundingClientRect();
-                const distance = (rect.left + rect.width/2) - centerX;
-                if (Math.abs(distance) < 150) {
-                    dots.forEach(d => d.classList.remove('active')); dots[i].classList.add('active');
-                    card.classList.add('active');
-                } else card.classList.remove('active');
-            });
-        });
-
-        setInterval(() => { document.getElementById('live-time').innerText = new Date().toLocaleTimeString('vi-VN'); }, 1000);
-        
-        renderDuty();
-        renderTKB();
+        setInterval(() => {
+            document.getElementById('live-time').innerText = new Date().toLocaleTimeString('vi-VN');
+        }, 1000);
     </script>
 </body>
 </html>
