@@ -3,202 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>10A7 Modern Hub</title>
+    <title>QUẢN LÝ LỚP 10A7</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Sử dụng phông chữ San Francisco/Inter phổ biến tại Bắc Mỹ */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f5f5f7; /* Màu xám đặc trưng Apple */
-            color: #1d1d1f;
-            padding-bottom: 40px;
-        }
-
-        /* Thẻ theo phong cách Card-UI hiện đại */
-        .apple-card {
-            background: #ffffff;
-            border-radius: 20px;
-            margin: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.03);
-            transition: transform 0.2s ease;
-        }
-
-        .section-title {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #86868b;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
-            padding-left: 20px;
-        }
-
-        .hero-text {
-            font-size: 3rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1;
-        }
-
-        /* Checkbox & Input tinh tế */
-        .check-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .custom-check {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            accent-color: #0071e3; /* Màu xanh Blue Apple */
-        }
-
-        .name-input {
-            border: 1px solid #d2d2d7;
-            border-radius: 8px;
-            padding: 4px 8px;
-            font-size: 0.75rem;
-            width: 100%;
-            text-align: center;
-            background: #fbfbfd;
-        }
-
-        /* Nút bấm kiểu Flat Modern */
-        .btn-primary {
-            background-color: #0071e3;
-            color: white;
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-        }
-
-        .sidebar-indicator {
-            position: fixed;
-            left: 0;
-            top: 25%;
-            width: 4px;
-            height: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-        }
-        .nav-line { width: 100%; height: 20%; background: #d2d2d7; border-radius: 0 4px 4px 0; }
-        .nav-line.active { background: #0071e3; }
+        :root { --gold: #d4af37; --sub-color: #fef3c7; }
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: var(--sub-color); overflow-x: hidden; }
+        .chinese-title { font-family: 'Noto Serif SC', serif; }
+        .input-pro { background-color: #ffffff !important; color: #000000 !important; font-weight: 700 !important; height: 50px; padding: 0 15px; border-radius: 8px; width: 100%; border: none; outline: none; }
+        .luxury-panel { background: linear-gradient(145deg, rgba(30, 58, 138, 0.1), rgba(0, 0, 0, 0.8)); border: 1px solid rgba(212, 175, 55, 0.2); border-left: 5px solid var(--gold); backdrop-filter: blur(10px); }
+        .gold-text { background: linear-gradient(180deg, #fde68a 0%, #d4af37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-capsule { background: rgba(10, 10, 10, 0.95); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 999px; padding: 6px; }
+        .nav-active { background-color: var(--gold); color: #000; box-shadow: 0 0 25px rgba(212, 175, 55, 0.8); transform: scale(1.05); }
+        .fade-up { animation: fadeUp 0.5s ease-out; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
+    <div id="root"></div>
 
-    <header class="p-8 pt-12">
-        <div class="flex justify-between items-baseline">
-            <h1 class="hero-text">10A7<span class="text-blue-600">.</span></h1>
-            <div class="text-right">
-                <p id="live-time" class="text-sm font-bold text-gray-400">00:00:00</p>
-            </div>
-        </div>
-    </header>
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
 
-    <div class="sidebar-indicator">
-        <div class="nav-line active"></div>
-        <div class="nav-line"></div>
-        <div class="nav-line"></div>
-        <div class="nav-line"></div>
-        <div class="nav-line"></div>
-    </div>
+        // --- CẤU HÌNH FIREBASE ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQmerSSs0qhO01xNnFWpquZYseDThWxP0", // Thay bằng API Key thật của bạn
+            authDomain: "lichtruc-e3f82.firebaseapp.com",
+            projectId: "lichtruc-e3f82",
+            storageBucket: "lichtruc-e3f82.firebasestorage.app",
+            messagingSenderId: "476557236437",
+            appId: "1:476557236437:web:dfb1cb5848642daecdaa5c"
+        };
 
-    <p class="section-title">Thông báo</p>
-    <section class="apple-card">
-        <div class="flex items-start gap-4">
-            <div class="bg-blue-100 p-3 rounded-full">
-                <i class="fa-solid fa-bell text-blue-600"></i>
-            </div>
-            <div>
-                <p class="text-lg font-bold">Chào buổi chiều!</p>
-                <p class="text-gray-500 text-sm mt-1">Lớp chúng ta có tiết thực hành tại phòng Lab vào Thứ 5. Đừng quên mang đầy đủ dụng cụ.</p>
-            </div>
-        </div>
-        <button class="mt-6 w-full text-blue-600 font-bold text-sm">+ Thêm tin nhắn mới</button>
-    </section>
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
 
-    <p class="section-title">Nhân sự lớp</p>
-    <section class="apple-card">
-        <div class="flex justify-between items-center">
-            <div>
-                <p class="text-xs text-gray-400 font-bold mb-2">BAN CÁN SỰ</p>
-                <div class="space-y-1">
-                    <p class="font-bold">L.Trưởng: <span class="text-blue-600 font-black uppercase">Nam</span></p>
-                    <p class="font-bold">L.Phó: <span class="text-blue-600 font-black uppercase">Lan</span></p>
-                    <p class="text-xs text-gray-400 mt-2 italic">+ 6 Tổ trưởng</p>
+        const App = () => {
+            const [view, setView] = useState('menu');
+            const [students, setStudents] = useState([]);
+            const [activities, setActivities] = useState([]);
+            const [loading, setLoading] = useState(true);
+            
+            // Form học sinh
+            const [studentForm, setStudentForm] = useState({ id: null, name: '', group: '', role: '' });
+            // Form trực nhật/thi đua
+            const [actForm, setActForm] = useState({ studentId: '', type: 'plus', points: '', reason: '' });
+
+            // --- ĐỒNG BỘ DỮ LIỆU ---
+            useEffect(() => {
+                const unsubStudents = db.collection("students").orderBy("group").onSnapshot(s => 
+                    setStudents(s.docs.map(d => ({id: d.id, ...d.data()}))));
+                const unsubAct = db.collection("activities").orderBy("timestamp", "desc").onSnapshot(s => {
+                    setActivities(s.docs.map(d => ({id: d.id, ...d.data()})));
+                    setLoading(false);
+                });
+                return () => { unsubStudents(); unsubAct(); };
+            }, []);
+
+            // --- THÊM/SỬA HỌC SINH ---
+            const saveStudent = async () => {
+                if (!studentForm.name || !studentForm.group) return alert("NHẬP TÊN VÀ TỔ!");
+                const data = { 
+                    name: studentForm.name.toUpperCase(), 
+                    group: studentForm.group, 
+                    role: studentForm.role || 'Thành viên' 
+                };
+                if (studentForm.id) await db.collection("students").doc(studentForm.id).update(data);
+                else await db.collection("students").add(data);
+                setStudentForm({ id: null, name: '', group: '', role: '' });
+            };
+
+            // --- GHI NHẬN THI ĐUA (Thay cho Đơn hàng) ---
+            const addActivity = async () => {
+                if (!actForm.studentId || !actForm.points) return alert("THIẾU THÔNG TIN!");
+                const student = students.find(s => s.id === actForm.studentId);
+                await db.collection("activities").add({
+                    timestamp: new Date().toISOString(),
+                    studentId: actForm.studentId,
+                    studentName: student.name,
+                    group: student.group,
+                    points: parseInt(actForm.type === 'plus' ? actForm.points : -actForm.points),
+                    reason: actForm.reason,
+                    date: new Date().toLocaleDateString('vi-VN')
+                });
+                setActForm({ studentId: '', type: 'plus', points: '', reason: '' });
+                alert("ĐÃ GHI NHẬN!");
+            };
+
+            // --- THỐNG KÊ TỔ ---
+            const groupStats = useMemo(() => {
+                const stats = {};
+                activities.forEach(act => {
+                    if (!stats[act.group]) stats[act.group] = 0;
+                    stats[act.group] += act.points;
+                });
+                return stats;
+            }, [activities]);
+
+            return (
+                <div className="min-h-screen pb-48">
+                    {/* TRANG CHỦ */}
+                    {view === 'menu' && (
+                        <div className="max-w-7xl mx-auto px-8 py-20 fade-up text-center">
+                            <h1 className="text-7xl md:text-[9rem] font-black gold-text uppercase leading-none mb-20 chinese-title">
+                                LỚP 10A7<br/><span className="text-white/5 italic">MANAGEMENT</span>
+                            </h1>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 uppercase font-black chinese-title text-4xl">
+                                <div onClick={() => setView('students')} className="luxury-panel p-10 cursor-pointer hover:gold-text">Danh sách lớp</div>
+                                <div onClick={() => setView('activity')} className="luxury-panel p-10 cursor-pointer hover:gold-text">Ghi nhận thi đua</div>
+                                <div onClick={() => setView('ranking')} className="luxury-panel p-10 cursor-pointer hover:gold-text">Bảng xếp hạng</div>
+                                <div onClick={() => setView('history')} className="luxury-panel p-10 cursor-pointer hover:gold-text">Nhật ký lớp</div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* QUẢN LÝ HỌC SINH */}
+                    {view === 'students' && (
+                        <div className="max-w-6xl mx-auto px-6 py-12 fade-up">
+                            <h1 className="text-5xl font-black italic mb-10 gold-text uppercase chinese-title">/ Hồ sơ học sinh</h1>
+                            <div className="luxury-panel p-8 mb-10">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                    <input className="input-pro uppercase" value={studentForm.name} onChange={e => setStudentForm({...studentForm, name: e.target.value})} placeholder="HỌ VÀ TÊN..." />
+                                    <select className="input-pro" value={studentForm.group} onChange={e => setStudentForm({...studentForm, group: e.target.value})}>
+                                        <option value="">--- CHỌN TỔ ---</option>
+                                        {[1,2,3,4,5,6].map(g => <option key={g} value={g}>Tổ {g}</option>)}
+                                    </select>
+                                    <input className="input-pro" value={studentForm.role} onChange={e => setStudentForm({...studentForm, role: e.target.value})} placeholder="CHỨC VỤ (NẾU CÓ)..." />
+                                </div>
+                                <button onClick={saveStudent} className="h-16 w-full bg-[#d4af37] text-black font-black text-xl uppercase rounded-lg">Cập nhật danh sách +</button>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {students.map(s => (
+                                    <div key={s.id} className="luxury-panel p-6 flex justify-between items-center">
+                                        <div>
+                                            <p className="text-2xl font-black gold-text uppercase">{s.name}</p>
+                                            <p className="opacity-40">Tổ {s.group} | {s.role}</p>
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <button onClick={() => setStudentForm(s)} className="text-[#d4af37] font-black text-xs uppercase">Sửa</button>
+                                            <button onClick={() => db.collection("students").doc(s.id).delete()} className="text-red-700 font-black text-xs uppercase">Xóa</button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* GHI NHẬN THI ĐUA */}
+                    {view === 'activity' && (
+                        <div className="max-w-4xl mx-auto px-6 py-12 fade-up">
+                            <h1 className="text-5xl font-black italic mb-10 gold-text uppercase chinese-title">/ Ghi nhận thi đua</h1>
+                            <div className="luxury-panel p-8 space-y-6">
+                                <select className="input-pro !h-16" value={actForm.studentId} onChange={e => setActForm({...actForm, studentId: e.target.value})}>
+                                    <option value="">--- CHỌN HỌC SINH ---</option>
+                                    {students.map(s => <option key={s.id} value={s.id}>{s.name} (Tổ {s.group})</option>)}
+                                </select>
+                                <div className="flex gap-4">
+                                    <button onClick={() => setActForm({...actForm, type: 'plus'})} className={`flex-1 py-4 rounded-lg font-black ${actForm.type === 'plus' ? 'bg-green-600 text-white' : 'bg-white/10'}`}>ĐIỂM CỘNG (+)</button>
+                                    <button onClick={() => setActForm({...actForm, type: 'minus'})} className={`flex-1 py-4 rounded-lg font-black ${actForm.type === 'minus' ? 'bg-red-600 text-white' : 'bg-white/10'}`}>ĐIỂM TRỪ (-)</button>
+                                </div>
+                                <input type="number" className="input-pro text-center text-3xl" placeholder="SỐ ĐIỂM..." value={actForm.points} onChange={e => setActForm({...actForm, points: e.target.value})} />
+                                <input className="input-pro" placeholder="LÝ DO (TRỰC NHẬT, PHÁT BIỂU...)" value={actForm.reason} onChange={e => setActForm({...actForm, reason: e.target.value})} />
+                                <button onClick={addActivity} className="h-20 w-full bg-[#d4af37] text-black font-black text-2xl uppercase rounded-xl shadow-2xl">Xác nhận ghi thẻ thi đua</button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* BẢNG XẾP HẠNG TỔ */}
+                    {view === 'ranking' && (
+                        <div className="max-w-4xl mx-auto px-6 py-12 fade-up">
+                            <h1 className="text-5xl font-black italic mb-10 gold-text uppercase chinese-title text-center">/ Xếp hạng tổ</h1>
+                            <div className="space-y-6">
+                                {[1,2,3,4,5,6].map(g => (
+                                    <div key={g} className="luxury-panel p-8 flex justify-between items-center">
+                                        <h2 className="text-4xl font-black gold-text">TỔ {g}</h2>
+                                        <div className="text-right">
+                                            <p className="text-5xl font-black">{groupStats[g] || 0}</p>
+                                            <p className="text-xs uppercase opacity-40">Tổng điểm tích lũy</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* NHẬT KÝ LỚP */}
+                    {view === 'history' && (
+                        <div className="max-w-5xl mx-auto px-6 py-12 fade-up">
+                            <h1 className="text-5xl font-black italic mb-10 gold-text uppercase chinese-title">/ Nhật ký lớp</h1>
+                            <div className="space-y-4">
+                                {activities.map(act => (
+                                    <div key={act.id} className="luxury-panel p-6 flex justify-between items-center bg-white/5">
+                                        <div>
+                                            <p className="text-xl font-black uppercase tracking-widest">{act.studentName}</p>
+                                            <p className="text-sm opacity-60">{act.reason} - {act.date}</p>
+                                        </div>
+                                        <div className={`text-3xl font-black ${act.points > 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                            {act.points > 0 ? `+${act.points}` : act.points}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* NAVIGATION */}
+                    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-[95%] max-w-4xl z-50">
+                        <nav className="nav-capsule flex justify-around items-center">
+                            {['menu', 'students', 'activity', 'ranking', 'history'].map(v => (
+                                <button key={v} onClick={() => setView(v)} className={`px-4 py-3 rounded-full font-black text-[10px] md:text-xs uppercase transition-all ${view === v ? 'nav-active' : 'text-white/30'}`}>
+                                    {v === 'menu' ? 'Home' : v === 'students' ? 'S.Viên' : v === 'activity' ? 'Thi đua' : v === 'ranking' ? 'Hạng' : 'Nhật ký'}
+                                </button>
+                            ))}
+                        </nav>
+                    </div>
                 </div>
-            </div>
-            <div class="text-center">
-                <p class="text-6xl font-black">47</p>
-                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Học sinh</p>
-            </div>
-        </div>
-    </section>
+            );
+        };
 
-    <p class="section-title">Trực nhật</p>
-    <section class="apple-card">
-        <div class="flex justify-between items-end mb-6">
-            <div>
-                <h2 class="text-3xl font-black">Tổ 05</h2>
-                <p class="text-xs text-blue-600 font-bold uppercase tracking-wider">Tuần 20: 27/01 - 01/02</p>
-            </div>
-            <button class="btn-primary">PHÂN CÔNG</button>
-        </div>
-
-        <div class="space-y-8">
-            <div>
-                <p class="text-sm font-bold mb-3 border-b pb-1">1. Lau bảng & Vệ sinh</p>
-                <div class="grid grid-cols-3 gap-4">
-                    <div class="check-item"><span class="text-[10px] font-bold text-gray-400">T2</span><input class="name-input" value="Nam"><input type="checkbox" class="custom-check"></div>
-                    <div class="check-item"><span class="text-[10px] font-bold text-gray-400">T3</span><input class="name-input" value="An"><input type="checkbox" class="custom-check"></div>
-                    <div class="check-item"><span class="text-[10px] font-bold text-gray-400">T4</span><input class="name-input" value="Bình"><input type="checkbox" class="custom-check"></div>
-                </div>
-            </div>
-            </div>
-    </section>
-
-    <p class="section-title">Tài chính</p>
-    <section class="apple-card">
-        <p class="text-center text-xs font-bold text-gray-400 uppercase mb-2">Số dư quỹ lớp</p>
-        <p class="text-4xl font-black text-center mb-6 text-green-600">2,450,000đ</p>
-        <div class="flex gap-4">
-            <div class="flex-1 p-4 bg-green-50 rounded-2xl">
-                <p class="text-[10px] font-bold text-green-600 uppercase">Khoản thu</p>
-                <p class="text-sm font-bold">+1.5M</p>
-            </div>
-            <div class="flex-1 p-4 bg-red-50 rounded-2xl">
-                <p class="text-[10px] font-bold text-red-600 uppercase">Khoản chi</p>
-                <p class="text-sm font-bold">-45K</p>
-            </div>
-        </div>
-    </section>
-
-    <p class="section-title">Tổng kết</p>
-    <section class="apple-card bg-black text-white">
-        <div class="flex flex-col items-center py-4">
-            <i class="fa-solid fa-award text-4xl text-yellow-500 mb-4"></i>
-            <p class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-widest text-center">Tổ xuất sắc tuần này</p>
-            <p class="text-4xl font-black">TỔ 02</p>
-            <div class="mt-6 px-6 py-2 bg-white/10 rounded-full text-xs font-medium">
-                Khen thưởng: +10 điểm thi đua
-            </div>
-        </div>
-    </section>
-
-    <script>
-        setInterval(() => {
-            document.getElementById('live-time').innerText = new Date().toLocaleTimeString('vi-VN');
-        }, 1000);
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
