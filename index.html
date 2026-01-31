@@ -2,142 +2,145 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10A7 XP - Arena</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>10A7 - Treasury Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f5f5f7; color: #1d1d1f; }
-        .xp-gradient { background: linear-gradient(90deg, #0071e3, #40b3ff); }
-        .level-badge { background: #1d1d1f; color: #f5f5f7; border-radius: 12px; padding: 4px 12px; font-weight: 800; }
-        .card-shadow { box-shadow: 0 8px 30px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); }
-        .top-1 { color: #d4af37; } /* Màu vàng Gold cho Top 1 */
-        .top-2 { color: #94a3b8; } /* Màu bạc cho Top 2 */
-        .top-3 { color: #b45309; } /* Màu đồng cho Top 3 */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .week-slider { display: flex; overflow-x: auto; gap: 10px; padding: 10px 0; scrollbar-width: none; }
+        .week-slider::-webkit-scrollbar { display: none; }
+        .week-card { min-width: 80px; height: 100px; display: flex; flex-col; align-items: center; justify-content: center; border-radius: 20px; transition: 0.3s; }
+        .active-week { background: #3b82f6; color: white; box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState } = React;
+        const { useState, useEffect } = React;
 
         const App = () => {
-            // Dữ liệu học sinh đang đăng nhập
-            const [student, setStudent] = useState({
-                name: "NGUYỄN HOÀNG NAM",
-                level: 5,
-                xp: 2350,
-                nextLevelXp: 3000,
-                group: 5,
-                streak: 12
-            });
+            const [view, setView] = useState("menu"); // menu, weekly, special
+            const [currentWeek, setCurrentWeek] = useState(1);
+            const [students, setStudents] = useState([
+                { id: 1, name: "NGUYỄN HOÀNG NAM", paidWeeks: [1, 2], specialPaid: false },
+                { id: 2, name: "TRẦN MINH TÚ", paidWeeks: [1], specialPaid: true }
+                // Dữ liệu này sẽ kết nối Firebase
+            ]);
 
-            // Danh sách giả lập tất cả học sinh để tính Top 3
-            // Sau này khi kết nối Firebase, danh sách này sẽ lấy từ Database
-            const allStudents = [
-                { name: "TRẦN MINH TÚ", xp: 4200 },
-                { name: "LÊ THỊ LAN", xp: 3850 },
-                { name: "NGUYỄN HOÀNG NAM", xp: 2350 },
-                { name: "PHẠM QUỐC BẢO", xp: 4500 },
-                { name: "ĐẶNG THU THẢO", xp: 3100 }
-            ];
-
-            // Logic: Sắp xếp giảm dần theo XP và lấy 3 người đầu tiên
-            const top3 = [...allStudents]
-                .sort((a, b) => b.xp - a.xp)
-                .slice(0, 3);
-
-            const xpPercentage = (student.xp / student.nextLevelXp) * 100;
+            // --- GIAO DIỆN CHỌN BAN ĐẦU ---
+            if (view === "menu") {
+                return (
+                    <div className="min-h-screen flex flex-col items-center justify-center p-6 gap-6">
+                        <h1 className="text-2xl font-black text-blue-400 italic tracking-tighter uppercase">Thủ Quỹ 10A7</h1>
+                        <button onClick={() => setView("weekly")} className="w-full max-w-sm glass p-8 rounded-[2.5rem] flex items-center gap-6 active:scale-95 transition-all">
+                            <div className="w-16 h-16 bg-blue-500 rounded-3xl flex items-center justify-center text-3xl"><i className="fa-solid fa-calendar-week"></i></div>
+                            <div className="text-left">
+                                <h3 className="font-black text-xl">QUỸ TUẦN</h3>
+                                <p className="text-xs opacity-50 uppercase font-bold">Quản lý 35 tuần học</p>
+                            </div>
+                        </button>
+                        <button onClick={() => setView("special")} className="w-full max-w-sm glass p-8 rounded-[2.5rem] flex items-center gap-6 active:scale-95 transition-all">
+                            <div className="w-16 h-16 bg-purple-500 rounded-3xl flex items-center justify-center text-3xl"><i className="fa-solid fa-bolt"></i></div>
+                            <div className="text-left">
+                                <h3 className="font-black text-xl">QUỸ ĐỘT XUẤT</h3>
+                                <p className="text-xs opacity-50 uppercase font-bold">Thu chi sự kiện riêng</p>
+                            </div>
+                        </button>
+                    </div>
+                );
+            }
 
             return (
-                <div className="max-w-md mx-auto min-h-screen p-6">
+                <div className="pb-20">
                     {/* Header */}
-                    <header className="flex justify-between items-center mb-10 pt-6">
-                        <h1 className="text-3xl font-extrabold tracking-tighter">10A7<span className="text-blue-600">XP</span></h1>
-                        <div className="flex items-center gap-2">
-                            <i className="fa-solid fa-fire text-orange-500 text-xl animate-pulse"></i>
-                            <span className="font-bold text-sm">{student.streak} Ngày</span>
-                        </div>
+                    <header className="p-6 sticky top-0 bg-[#0f172a]/90 backdrop-blur-md z-50">
+                        <button onClick={() => setView("menu")} className="text-xs font-bold text-gray-500 mb-2 uppercase tracking-widest">
+                            <i className="fa-solid fa-arrow-left mr-2"></i> Trở về Menu
+                        </button>
+                        <h2 className="text-2xl font-black uppercase italic">{view === "weekly" ? "Quản lý Quỹ Tuần" : "Thu Chi Đột Xuất"}</h2>
                     </header>
 
-                    {/* Main Hero Card */}
-                    <div className="bg-white rounded-[2.5rem] p-8 card-shadow mb-8 relative overflow-hidden">
-                        <div className="relative z-10">
-                            <div className="flex justify-between items-start mb-6">
+                    <main className="px-4">
+                        {/* 1. GIAO DIỆN QUỸ TUẦN */}
+                        {view === "weekly" && (
+                            <>
+                                <div className="week-slider mb-6">
+                                    {[...Array(35)].map((_, i) => (
+                                        <div 
+                                            key={i} 
+                                            onClick={() => setCurrentWeek(i + 1)}
+                                            className={`week-card glass flex-shrink-0 ${currentWeek === i + 1 ? 'active-week' : ''}`}
+                                        >
+                                            <span className="text-[10px] font-bold uppercase opacity-60">Tuần</span>
+                                            <span className="text-2xl font-black">{i + 1}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <p className="text-[10px] font-black text-gray-500 uppercase ml-2 mb-4 tracking-[0.2em]">Hệ thống rà soát tuần {currentWeek}</p>
+                            </>
+                        )}
+
+                        {/* 2. GIAO DIỆN QUỸ ĐỘT XUẤT */}
+                        {view === "special" && (
+                            <div className="glass p-6 rounded-[2rem] mb-6 space-y-4">
                                 <div>
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Tổ {student.group} • Hero</p>
-                                    <h2 className="text-2xl font-black">{student.name}</h2>
+                                    <label className="text-[10px] font-black text-blue-400 uppercase">Tên khoản thu</label>
+                                    <input placeholder="VD: Tiền áo lớp..." className="w-full bg-white/5 p-4 rounded-xl mt-2 border border-white/10" />
                                 </div>
-                                <div className="level-badge text-xl">Lv.{student.level}</div>
-                            </div>
-
-                            <div className="mt-8">
-                                <div className="flex justify-between text-xs font-bold mb-2">
-                                    <span className="text-blue-600 uppercase tracking-tighter">Tiến trình Level</span>
-                                    <span>{student.xp.toLocaleString()} / {student.nextLevelXp.toLocaleString()} XP</span>
-                                </div>
-                                <div className="w-full h-4 bg-gray-100 rounded-full overflow-hidden">
-                                    <div 
-                                        className="h-full xp-gradient transition-all duration-1000 ease-out"
-                                        style={{ width: `${xpPercentage}%` }}
-                                    ></div>
-                                </div>
-                                <p className="text-[10px] text-gray-400 mt-3 italic">Còn {(student.nextLevelXp - student.xp).toLocaleString()} XP nữa để thăng cấp!</p>
-                            </div>
-                        </div>
-                        <div className="absolute -right-4 -top-4 text-blue-50 opacity-[0.03] text-9xl font-black">
-                            {student.level}
-                        </div>
-                    </div>
-
-                    {/* Quick Action Buttons */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-white p-6 rounded-3xl card-shadow flex flex-col items-center gap-2">
-                            <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl shadow-inner">
-                                <i className="fa-solid fa-bolt"></i>
-                            </div>
-                            <span className="text-xs font-bold uppercase tracking-widest text-gray-400">Phát biểu</span>
-                            <span className="text-blue-600 font-black">+10 XP</span>
-                        </div>
-
-                        <div className="bg-white p-6 rounded-3xl card-shadow flex flex-col items-center gap-2">
-                            <div className="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-xl shadow-inner">
-                                <i className="fa-solid fa-broom"></i>
-                            </div>
-                            <span className="text-xs font-bold uppercase tracking-widest text-gray-400">Trực nhật</span>
-                            <span className="text-green-600 font-black">+30 XP</span>
-                        </div>
-                    </div>
-
-                    {/* Leaderboard Preview - TOP 3 */}
-                    <div className="mt-10">
-                        <div className="flex justify-between items-center mb-4 ml-2">
-                            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Đấu trường 10A7</p>
-                            <i className="fa-solid fa-trophy text-yellow-500 text-xs"></i>
-                        </div>
-                        
-                        <div className="bg-white rounded-[2rem] p-4 card-shadow space-y-2">
-                            {top3.map((hero, index) => (
-                                <div key={index} className={`flex items-center gap-4 p-3 rounded-2xl ${index === 0 ? 'bg-yellow-50/50' : ''}`}>
-                                    <span className={`font-black text-lg w-6 ${index === 0 ? 'top-1' : index === 1 ? 'top-2' : 'top-3'}`}>
-                                        0{index + 1}
-                                    </span>
-                                    <div className="flex-1 font-bold text-sm uppercase tracking-tight">
-                                        {hero.name}
-                                        {index === 0 && <i className="fa-solid fa-crown ml-2 text-[10px] top-1"></i>}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="text-[10px] font-black text-blue-400 uppercase">Số tiền/Bạn</label>
+                                        <input type="number" placeholder="50.000" className="w-full bg-white/5 p-4 rounded-xl mt-2 border border-white/10" />
                                     </div>
-                                    <span className="font-black text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                        {hero.xp.toLocaleString()} <span className="text-[8px] text-gray-400 uppercase">XP</span>
-                                    </span>
+                                    <div>
+                                        <label className="text-[10px] font-black text-blue-400 uppercase">Hạn chót</label>
+                                        <input type="date" className="w-full bg-white/5 p-4 rounded-xl mt-2 border border-white/10 text-xs" />
+                                    </div>
                                 </div>
-                            ))}
+                            </div>
+                        )}
+
+                        {/* DANH SÁCH HỌC SINH ĐỐNG QUỸ */}
+                        <div className="space-y-3">
+                            {students.map(s => {
+                                const isPaid = view === "weekly" ? s.paidWeeks.includes(currentWeek) : s.specialPaid;
+                                return (
+                                    <div key={s.id} className="glass p-5 rounded-[2rem] flex justify-between items-center transition-all">
+                                        <div>
+                                            <h4 className="font-extrabold text-sm uppercase">{s.name}</h4>
+                                            <p className={`text-[10px] font-black mt-1 uppercase ${isPaid ? 'text-green-500' : 'text-red-500'}`}>
+                                                {isPaid ? "Đã hoàn thành" : "Chưa hoàn thành"}
+                                            </p>
+                                        </div>
+                                        <button 
+                                            className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl transition-all ${isPaid ? 'bg-green-500 text-white shadow-lg shadow-green-500/20' : 'bg-white/5 text-gray-500'}`}
+                                            onClick={() => alert("Cập nhật trạng thái đóng quỹ cho " + s.name)}
+                                        >
+                                            <i className={`fa-solid ${isPaid ? 'fa-check' : 'fa-hand-holding-dollar'}`}></i>
+                                        </button>
+                                    </div>
+                                );
+                            })}
                         </div>
-                        <p className="text-[9px] text-center text-gray-400 mt-4 uppercase tracking-widest font-bold">Dữ liệu cập nhật thời gian thực</p>
+                    </main>
+
+                    {/* Báo cáo nhanh Footer */}
+                    <div className="fixed bottom-6 left-4 right-4 glass p-6 rounded-[2.5rem] flex justify-between items-center border-t-2 border-blue-500/30">
+                        <div>
+                            <p className="text-[10px] font-bold text-gray-500 uppercase">Tổng thu dự kiến</p>
+                            <p className="text-xl font-black text-blue-400 tracking-tighter">2.350.000đ</p>
+                        </div>
+                        <div className="text-right">
+                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">Đã đóng: 40/47</p>
+                            <button className="bg-white text-black text-[10px] font-black px-4 py-2 rounded-full mt-1">XUẤT BÁO CÁO</button>
+                        </div>
                     </div>
                 </div>
             );
